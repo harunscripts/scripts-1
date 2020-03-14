@@ -49,6 +49,6 @@ end end)
 
 game:GetService('RunService').RenderStepped:connect(function()
 wait(.1)
-if game:GetService("Players").LocalPlayer.PlayerGui.MenuGUI:FindFirstChild('Cash') then
+if game:GetService("Players").LocalPlayer.PlayerGui.MenuGUI:FindFirstChild('Cash') and game:GetService("Players").LocalPlayer.Data:FindFirstChild('Money') then
 game:GetService("Players").LocalPlayer.PlayerGui.MenuGUI.Cash.Text = 'Cash: ' .. tostring(game.Players.LocalPlayer.Data.Money.Value) end end)
 
