@@ -1,0 +1,37 @@
+		game:GetService('RunService').RenderStepped:connect(function()
+wait(.1)
+if not game:GetService("Players").LocalPlayer.PlayerGui.MenuGUI:FindFirstChild('ServerAge2') then
+	game:GetService("Players").LocalPlayer.PlayerGui.MenuGUI:FindFirstChild('ServerAge').Visible = false
+	local ServerAge2 = Instance.new("TextLabel")
+ServerAge2.Name = 'ServerAge2'
+ServerAge2.Parent = game.Players.LocalPlayer.PlayerGui.MenuGUI
+ServerAge2.Visible = true
+ServerAge2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+ServerAge2.BackgroundTransparency = 1.000
+ServerAge2.BorderSizePixel = 0
+ServerAge2.Position = UDim2.new(0, 668, 0, 32.9)
+ServerAge2.Size = UDim2.new(0, 200, 0, 26)
+ServerAge2.Font = Enum.Font.SourceSansSemibold
+ServerAge2.Text = "Getting Server Age..."
+ServerAge2.TextColor3 = Color3.fromRGB(255, 255, 255)
+ServerAge2.TextScaled = true
+ServerAge2.TextSize = 14.000
+ServerAge2.TextStrokeTransparency = 0.000
+ServerAge2.TextWrapped = true
+end end)
+wait(.5)
+repeat
+wait(.1)
+if game:GetService("Players").LocalPlayer.PlayerGui.MenuGUI:FindFirstChild('ServerAge2') then
+		local seconds = math.floor(workspace.DistributedGameTime)
+		local minutes = math.floor(workspace.DistributedGameTime / 60)
+		local hours = math.floor(workspace.DistributedGameTime / 60 / 60)
+		local seconds = seconds - (minutes * 60)
+		local minutes = minutes - (hours * 60)
+	if hours < 1 and minutes < 1 then
+game:GetService("Players").LocalPlayer.PlayerGui.MenuGUI.ServerAge2.Text = seconds .. ' Seconds' else
+game:GetService("Players").LocalPlayer.PlayerGui.MenuGUI.ServerAge2.Text = minutes .. " Minutes, " .. seconds .. " Seconds"
+	end
+	else
+	game:GetService("Players").LocalPlayer.PlayerGui.MenuGUI.ServerAge2.Text = hours .. " Hours, " .. minutes .. " Minutes, " .. seconds .. " Seconds"
+end until not game
