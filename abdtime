@@ -21,7 +21,7 @@ ServerAge2.TextWrapped = true
 end end)
 wait(.5)
 repeat
-wait(.1)
+wait(.5)
 if game:GetService("Players").LocalPlayer.PlayerGui.MenuGUI:FindFirstChild('ServerAge2') then
 		local seconds = math.floor(workspace.Time.Value)
 		local minutes = math.floor(workspace.Time.Value / 60)
