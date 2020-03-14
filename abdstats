@@ -1,0 +1,54 @@
+game:GetService('RunService').RenderStepped:connect(function()
+wait(.1)
+if not game:GetService("Players").LocalPlayer.PlayerGui.MenuGUI:FindFirstChild('Stand') then
+	local Stand = Instance.new("TextLabel")
+Stand.Name = 'Stand'
+Stand.Parent = game.Players.LocalPlayer.PlayerGui.MenuGUI
+Stand.Visible = false
+Stand.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Stand.BackgroundTransparency = 1.000
+Stand.BorderSizePixel = 0
+Stand.Position = UDim2.new(0, 668, 0, 55.9)
+Stand.Size = UDim2.new(0, 200, 0, 26)
+Stand.Font = Enum.Font.SourceSansSemibold
+Stand.Text = "Getting Stand..."
+Stand.TextColor3 = Color3.fromRGB(255, 255, 255)
+Stand.TextScaled = true
+Stand.TextSize = 14.000
+Stand.TextStrokeTransparency = 0.000
+Stand.TextWrapped = true
+end end)
+
+game:GetService('RunService').RenderStepped:connect(function()
+wait(.1)
+if game:GetService("Players").LocalPlayer.PlayerGui.MenuGUI:FindFirstChild('Stand') then
+game:GetService("Players").LocalPlayer.PlayerGui.MenuGUI.Stand.Text = 'Stand: ' .. game.Players.LocalPlayer.PlayerGui.MenuGUI.Background.Ability.Text end end)
+
+-----------------
+
+game:GetService('RunService').RenderStepped:connect(function()
+wait(.1)
+if not game:GetService("Players").LocalPlayer.PlayerGui.MenuGUI:FindFirstChild('Cash') then
+	local Cash = Instance.new("TextLabel")
+Cash.Name = 'Cash'
+Cash.Visible = false
+Cash.Parent = game.Players.LocalPlayer.PlayerGui.MenuGUI
+Cash.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Cash.BackgroundTransparency = 1.000
+Cash.BorderSizePixel = 0
+Cash.Position = UDim2.new(0, 668, 0, 78.9)
+Cash.Size = UDim2.new(0, 200, 0, 26)
+Cash.Font = Enum.Font.SourceSansSemibold
+Cash.Text = "Getting Cash..."
+Cash.TextColor3 = Color3.fromRGB(255, 255, 255)
+Cash.TextScaled = true
+Cash.TextSize = 14.000
+Cash.TextStrokeTransparency = 0.000
+Cash.TextWrapped = true
+end end)
+
+game:GetService('RunService').RenderStepped:connect(function()
+wait(.1)
+if game:GetService("Players").LocalPlayer.PlayerGui.MenuGUI:FindFirstChild('Cash') then
+game:GetService("Players").LocalPlayer.PlayerGui.MenuGUI.Cash.Text = 'Cash: ' .. tostring(game.Players.LocalPlayer.Data.Money.Value) end end)
+
