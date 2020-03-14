@@ -28,10 +28,10 @@ if game:GetService("Players").LocalPlayer.PlayerGui.MenuGUI:FindFirstChild('Serv
 		local hours = math.floor(workspace.Time.Value / 60 / 60)
 		local seconds = seconds - (minutes * 60)
 		local minutes = minutes - (hours * 60)
-	if hours < 1 and minutes < 1 then
+	if minutes < 1 then
 game:GetService("Players").LocalPlayer.PlayerGui.MenuGUI.ServerAge2.Text = tostring(seconds):sub(1, 4) .. ' Seconds' else
 game:GetService("Players").LocalPlayer.PlayerGui.MenuGUI.ServerAge2.Text = tostring(minutes):sub(1, 4) .. " Minutes, " .. tostring(seconds):sub(1, 4) .. " Seconds"
 	end
-	else
-	game:GetService("Players").LocalPlayer.PlayerGui.MenuGUI.ServerAge2.Text = tostring(hours):sub(1, 4) .. " Hours, " .. tostring(minutes):sub(1, 4) .. " Minutes, " .. tostring(seconds):sub(1, 4) .. " Seconds"
+	if hours > 1 then
+	game:GetService("Players").LocalPlayer.PlayerGui.MenuGUI.ServerAge2.Text = tostring(hours):sub(1, 4) .. " Hours, " .. tostring(minutes):sub(1, 4) .. " Minutes, " .. tostring(seconds):sub(1, 4) .. " Seconds" end
 end until not game
