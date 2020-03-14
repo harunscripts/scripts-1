@@ -23,15 +23,15 @@ wait(.5)
 repeat
 wait(.1)
 if game:GetService("Players").LocalPlayer.PlayerGui.MenuGUI:FindFirstChild('ServerAge2') then
-		local seconds = math.floor(workspace.DistributedGameTime)
-		local minutes = math.floor(workspace.DistributedGameTime / 60)
-		local hours = math.floor(workspace.DistributedGameTime / 60 / 60)
+		local seconds = math.floor(workspace.Time.Value)
+		local minutes = math.floor(workspace.Time.Value / 60)
+		local hours = math.floor(workspace.Time.Value / 60 / 60)
 		local seconds = seconds - (minutes * 60)
 		local minutes = minutes - (hours * 60)
 	if hours < 1 and minutes < 1 then
-game:GetService("Players").LocalPlayer.PlayerGui.MenuGUI.ServerAge2.Text = seconds .. ' Seconds' else
-game:GetService("Players").LocalPlayer.PlayerGui.MenuGUI.ServerAge2.Text = minutes .. " Minutes, " .. seconds .. " Seconds"
+game:GetService("Players").LocalPlayer.PlayerGui.MenuGUI.ServerAge2.Text = tostring(seconds):sub(1, 4) .. ' Seconds' else
+game:GetService("Players").LocalPlayer.PlayerGui.MenuGUI.ServerAge2.Text = tostring(minutes):sub(1, 4) .. " Minutes, " .. tostring(seconds):sub(1, 4) .. " Seconds"
 	end
 	else
-	game:GetService("Players").LocalPlayer.PlayerGui.MenuGUI.ServerAge2.Text = hours .. " Hours, " .. minutes .. " Minutes, " .. seconds .. " Seconds"
+	game:GetService("Players").LocalPlayer.PlayerGui.MenuGUI.ServerAge2.Text = tostring(hours):sub(1, 4) .. " Hours, " .. tostring(minutes):sub(1, 4) .. " Minutes, " .. tostring(seconds):sub(1, 4) .. " Seconds"
 end until not game
