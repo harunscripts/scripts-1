@@ -1,0 +1,71 @@
+function itemteleport(item)
+pcall(function()
+game:GetService("Workspace").ItFolder[item].Handle.CanCollide = false
+game:GetService("Workspace").ItFolder[item].Handle.CFrame = game:GetService('Players').LocalPlayer.Character.HumanoidRootPart.CFrame
+end) end
+
+wait(20)
+
+function db()
+local args = 
+{
+      game:GetService("Workspace").Entities['Dio Brando'].Humanoid, 
+      CFrame.new(-11.2775888, -42.0383644, -53.3032341, -0.993044913, 0.101999134, -0.0588005744, 0.0574687645, -0.0159492418, -0.998219848, -0.102755338, -0.994656444, 0.00997649878), 
+      99, 
+      0.25, 
+      Vector3.new(-0.320845991, 5.30367856e-08, 9.99485111), 
+      "rbxassetid://241837157", 
+      0.075, 
+      Color3.new(1, 1, 1), 
+      "rbxassetid://260430079", 
+      1.1, 
+      2
+}
+game:GetService("ReplicatedStorage").Damage24:FireServer(unpack(args))
+end
+
+game:GetService('RunService').RenderStepped:connect(function()
+wait()
+if game:GetService("Workspace").Entities:FindFirstChild("Dio Brando") then
+	game:GetService('Players').LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").Entities['Dio Brando'].HumanoidRootPart.CFrame
+	db()
+repeat wait(1) until not game:GetService("Workspace").Entities:FindFirstChild("Dio Brando")
+	game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(2203.0310058594, -42.363277435303, 21.759984970093)
+end end
+end)
+game:GetService('RunService').RenderStepped:connect(function()
+if _G.karsfarm then
+wait(.1)
+if game:GetService('Workspace'):FindFirstChild('Vampire Mask') and game:GetService('Players').LocalPlayer.PlayerGui.MenuGUI.Background.Ability.Text ~= 'Kars' then 
+	itemteleport('Vampire Mask') end end
+end)
+
+game:GetService('RunService').RenderStepped:connect(function()
+if _G.karsfarm then
+if game.Players.LocalPlayer.Backpack:FindFirstChild('Vampire Mask') then
+wait(1)
+	game.Players.LocalPlayer.Humanoid:EquipTool(game.Players.LocalPlayer.Backpack['Vampire Mask'])
+	wait(1)
+	game:GetService('ReplicatedStorage').GetVampire:FireServer()
+end end end)
+
+game:GetService('RunService').RenderStepped:connect(function()
+	spawn(function()
+pcall(function()
+game:GetService("Workspace").ItFolder.Banknote.Handle.CanCollide = false
+game:GetService("Workspace").ItFolder.Banknote.Handle.CFrame = game:GetService('Players').LocalPlayer.Character.HumanoidRootPart.CFrame
+end) end)
+pcall(function()
+wait(.1)
+if game:GetService('Players').LocalPlayer.Backpack:FindFirstChild('Banknote') then
+game:GetService('Players').LocalPlayer.Character.Humanoid:EquipTool(game:GetService('Players').LocalPlayer.Backpack.Banknote)
+wait(.5) end
+end)
+pcall(function()
+wait(.1)
+if game:GetService('Players').LocalPlayer.Character:FindFirstChild('Banknote') then
+repeat
+    wait(.1)
+game:GetService('Players').LocalPlayer.Character.Banknote:Activate() until not game:GetService('Players').LocalPlayer.Character.Banknote
+end end)
+end)
