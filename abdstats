@@ -31,7 +31,7 @@ wait(.1)
 if not game:GetService("Players").LocalPlayer.PlayerGui.MenuGUI:FindFirstChild('Cash') then
 	local Cash = Instance.new("TextLabel")
 Cash.Name = 'Cash'
-Stand.Visible = true
+Cash.Visible = true
 Cash.Parent = game.Players.LocalPlayer.PlayerGui.MenuGUI
 Cash.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 Cash.BackgroundTransparency = 1.000
