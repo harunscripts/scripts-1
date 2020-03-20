@@ -19,9 +19,9 @@ ServerAge2.TextSize = 14.000
 ServerAge2.TextStrokeTransparency = 0.000
 ServerAge2.TextWrapped = true
 end end)
-wait(.5)
-repeat
-wait(1)
+
+game:GetService('RunService').RenderStepped:connect(function()
+wait(.1)
 if game:GetService("Players").LocalPlayer.PlayerGui.MenuGUI:FindFirstChild('ServerAge2') then
 		local seconds = math.floor(workspace.Time.Value)
 		local minutes = math.floor(workspace.Time.Value / 60)
@@ -34,4 +34,4 @@ game:GetService("Players").LocalPlayer.PlayerGui.MenuGUI.ServerAge2.Text = tostr
 	end
 	if hours > 1 then
 	game:GetService("Players").LocalPlayer.PlayerGui.MenuGUI.ServerAge2.Text = tostring(hours):sub(1, 4) .. " Hours, " .. tostring(minutes):sub(1, 4) .. " Minutes, " .. tostring(seconds):sub(1, 4) .. " Seconds" end
-end until not game
+end end)
