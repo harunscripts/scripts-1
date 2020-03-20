@@ -4,7 +4,6 @@ if not game:GetService("Players").LocalPlayer.PlayerGui.MenuGUI:FindFirstChild('
 	local Stand = Instance.new("TextLabel")
 Stand.Name = 'Stand'
 Stand.Parent = game.Players.LocalPlayer.PlayerGui.MenuGUI
-Stand.Visible = false
 Stand.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 Stand.BackgroundTransparency = 1.000
 Stand.BorderSizePixel = 0
@@ -31,7 +30,6 @@ wait(.1)
 if not game:GetService("Players").LocalPlayer.PlayerGui.MenuGUI:FindFirstChild('Cash') then
 	local Cash = Instance.new("TextLabel")
 Cash.Name = 'Cash'
-Cash.Visible = false
 Cash.Parent = game.Players.LocalPlayer.PlayerGui.MenuGUI
 Cash.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 Cash.BackgroundTransparency = 1.000
