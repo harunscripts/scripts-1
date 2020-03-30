@@ -77,7 +77,7 @@ tab.TextColor3 = Color3.fromRGB(255, 255, 255)
 tab.TextSize = 14.000
 
 tabseperator.Name = "tabseperator"
-tabseperator.Parent = tab
+tabseperator.Parent = tabs
 tabseperator.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 tabseperator.BorderSizePixel = 0
 tabseperator.Position = UDim2.new(0, 0, 1, 0)
