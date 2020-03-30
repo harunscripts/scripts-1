@@ -97,7 +97,7 @@ tabsep.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 tabsep.BackgroundTransparency = 1.000
 tabsep.BorderSizePixel = 0
 tabsep.Position = UDim2.new(0, 0, 0.130630627, 0)
-tabsep.Size = UDim2.new(0, 121, 0, 7)
+tabsep.Size = UDim2.new(0, 121, 0, 2)
 end
 return gui;
 end
