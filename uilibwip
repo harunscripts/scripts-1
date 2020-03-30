@@ -1,24 +1,22 @@
-tabnum = 0
 local library = {}
-
-function library:CreateMain(name)
-	local lib = Instance.new("ScreenGui")
+function library:Create(name)
+local main = Instance.new("ScreenGui")
 local mainframe = Instance.new("Frame")
 local name = Instance.new("TextLabel")
-local tabs = Instance.new("Frame")
-local list = Instance.new("UIListLayout")
 local borderline = Instance.new("Frame")
 local borderline_2 = Instance.new("Frame")
+local tabs = Instance.new("Frame")
+local UIListLayout = Instance.new("UIListLayout")
 
-lib.Name = "lib"
-lib.Parent = game:GetService("CoreGui")
+main.Name = "main"
+main.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 
 mainframe.Name = "mainframe"
-mainframe.Parent = lib
+mainframe.Parent = main
 mainframe.BackgroundColor3 = Color3.fromRGB(42, 42, 42)
 mainframe.BorderSizePixel = 0
-mainframe.Position = UDim2.new(0, 289, 0, 215)
-mainframe.Size = UDim2.new(0, 491, 0, 271)
+mainframe.Position = UDim2.new(0, 156, 0, 217)
+mainframe.Size = UDim2.new(0, 556, 0, 271)
 
 name.Name = "name"
 name.Parent = mainframe
@@ -28,16 +26,9 @@ name.Position = UDim2.new(0.0240513328, 0, 0.0176056325, 0)
 name.Size = UDim2.new(0, 96, 0, 40)
 name.ZIndex = 2
 name.Font = Enum.Font.GothamSemibold
-name.Text = name
+name.Text = "UI Lib"
 name.TextColor3 = Color3.fromRGB(255, 255, 255)
 name.TextSize = 17.000
-
-tabs.Name = "tabs"
-tabs.Parent = mainframe
-tabs.BackgroundColor3 = Color3.fromRGB(44, 44, 44)
-tabs.BorderSizePixel = 0
-tabs.Position = UDim2.new(0.00228310027, 0, 0.179577485, 0)
-tabs.Size = UDim2.new(0, 116, 0, 222)z
 
 borderline.Name = "borderline"
 borderline.Parent = mainframe
@@ -51,41 +42,54 @@ borderline_2.Name = "borderline"
 borderline_2.Parent = mainframe
 borderline_2.BackgroundColor3 = Color3.fromRGB(52, 52, 52)
 borderline_2.BorderSizePixel = 0
-borderline_2.Position = UDim2.new(0.238535643, 0, 0, 0)
+borderline_2.Position = UDim2.new(0.213887751, 0, 0, 0)
 borderline_2.Size = UDim2.new(0, 5, 0, 271)
 borderline_2.ZIndex = 2
+
+tabs.Name = "tabs"
+tabs.Parent = mainframe
+tabs.BackgroundColor3 = Color3.fromRGB(44, 44, 44)
+tabs.BorderSizePixel = 0
+tabs.Position = UDim2.new(0.00228310027, 0, 0.179577485, 0)
+tabs.Size = UDim2.new(0, 116, 0, 222)
 
 UIListLayout.Parent = tabs
 UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
 
-local tabtable = {}
+local gui = {}
+tabnum = 0
 
-function tabtable:Tab(tab)
-tab1.Name = "tab" .. tabnum
-tab1.Parent = tabs
-tab1.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-tab1.BackgroundTransparency = 1.000
-tab1.Position = UDim2.new(-0.00862068962, 0, 0.200704232, 0)
-tab1.Size = UDim2.new(0, 117, 0, 28)
-tab1.Font = Enum.Font.Gotham
-tab1.Text = tab
-tab1.TextColor3 = Color3.fromRGB(255, 255, 255)
-tab1.TextSize = 14.000
+function gui:Tab(name)
+	items = 0
+	tabnum = tabnum + 1
+	local tab = Instance.new("TextButton")
+	local tabseperator = Instance.new("Frame")
+	local tabframe = Instance.new("Frame")
+tab.Name = "tab" .. tostring(tabnum)
+tab.Parent = tabs
+tab.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+tab.BackgroundTransparency = 1.000
+tab.Position = UDim2.new(-0.00862068962, 0, 0.200704232, 0)
+tab.Size = UDim2.new(0, 117, 0, 28)
+tab.Font = Enum.Font.Gotham
+tab.Text = name
+tab.TextColor3 = Color3.fromRGB(255, 255, 255)
+tab.TextSize = 14.000
 
 tabseperator.Name = "tabseperator"
-tabseperator.Parent = tab1
+tabseperator.Parent = tab
 tabseperator.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 tabseperator.BorderSizePixel = 0
 tabseperator.Position = UDim2.new(0, 0, 1, 0)
 tabseperator.Size = UDim2.new(0, 121, 0, 1)
 
-tab1frame.Name = "tabframe"
-tab1frame.Parent = mainframe
-tab1frame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-tab1frame.BackgroundTransparency = 1.000
-tab1frame.Position = UDim2.new(0.27144298, 0, 0.0457746461, 0)
-tab1frame.Size = UDim2.new(0, 346, 0, 260)
+tabframe.Name = "tab1frame"
+tabframe.Parent = mainframe
+tabframe.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+tabframe.BackgroundTransparency = 1.000
+tabframe.Position = UDim2.new(0.27144298, 0, 0.0457746461, 0)
+tabframe.Size = UDim2.new(0, 346, 0, 260)
 end
-return tabtable;
+return gui;
 end
 return library;
