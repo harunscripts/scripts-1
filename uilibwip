@@ -1,3 +1,4 @@
+tabnum = 0
 local library = {}
 
 function library:CreateMain(name)
