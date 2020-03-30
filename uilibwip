@@ -60,12 +60,14 @@ local gui = {}
 tabnum = 0
 
 function gui:Tab(name)
-	items = 0
 	tabnum = tabnum + 1
 	local tab = Instance.new("TextButton")
 	local tabseperator = Instance.new("Frame")
 	local tabframe = Instance.new("Frame")
 	local tabsep = Instance.new("Frame")
+	local section1 = Instance.new("Frame")
+	local section2 = Instance.new("Frame")
+	local section3 = Instance.new("Frame")
 tab.Name = "tab" .. tostring(tabnum)
 tab.Parent = tabs
 tab.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -98,7 +100,66 @@ tabsep.BackgroundTransparency = 1.000
 tabsep.BorderSizePixel = 0
 tabsep.Position = UDim2.new(0, 0, 0.130630627, 0)
 tabsep.Size = UDim2.new(0, 121, 0, 2)
+
+local UIListLayout1 = Instance.new("UIListLayout")
+local UIListLayout2 = Instance.new("UIListLayout")
+local UIListLayout3 = Instance.new("UIListLayout")
+section1.Name = "section1"
+section1.Parent = tabframe
+section1.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+section1.BackgroundTransparency = 1.000
+section1.ClipsDescendants = true
+section1.Position = UDim2.new(-0.0317919068, 0, 0.0076923077, 0)
+section1.Size = UDim2.new(0, 127, 0, 247)
+UIListLayout1.Parent = section1
+UIListLayout1.SortOrder = Enum.SortOrder.LayoutOrder
+
+section2.Name = "section2"
+section2.Parent = tab1frame
+section2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+section2.BackgroundTransparency = 1.000
+section2.ClipsDescendants = true
+section2.Position = UDim2.new(0.361271679, 0, 0.0076923077, 0)
+section2.Size = UDim2.new(0, 127, 0, 247)
+UIListLayout2.Parent = section1
+UIListLayout2.SortOrder = Enum.SortOrder.LayoutOrder
+
+section3.Name = "section3"
+section3.Parent = tab1frame
+section3.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+section3.BackgroundTransparency = 1.000
+section3.ClipsDescendants = true
+section3.Position = UDim2.new(0.757225454, 0, 0.0076923077, 0)
+section3.Size = UDim2.new(0, 127, 0, 247)
+UIListLayout3.Parent = section1
+UIListLayout3.SortOrder = Enum.SortOrder.LayoutOrder
 end
-return gui;
+
+buttonnum = 0
+function gui:Button(name)
+buttonnum = buttonnum + 1
+local button = Instance.new("TextButton")
+button.Name = "button" .. tostring(buttonnum)
+if buttonnum < 8 then
+button.Parent = section1
+end
+if buttonnum < 16 then
+	if buttonnum > 8 then
+button.Parent = section2
+end end
+if buttonnum > 15 then
+button.Parent = section3
+end
+button.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+button.BackgroundTransparency = 1.000
+button.BorderSizePixel = 0
+button.Position = UDim2.new(0.419075131, 0, 0.328205138, 0)
+button.Size = UDim2.new(0, 128, 0, 25)
+button.ZIndex = 2
+button.Font = Enum.Font.SourceSans
+button.Text = name
+button.TextColor3 = Color3.fromRGB(255, 255, 255)
+button.TextSize = 16.000
 end
 return library;
+end
