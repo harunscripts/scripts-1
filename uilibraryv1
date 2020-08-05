@@ -1,0 +1,442 @@
+
+if not _G.count then _G.count = 0 end
+_G.count = _G.count + 1
+
+local mouse = game:GetService'Players'.LocalPlayer:GetMouse()
+
+function resize(frame, size)
+	frame.Size = UDim2.new(0, frame.AbsoluteSize.X, 0, frame.AbsoluteSize.Y + size)
+end
+
+function ripple(button)
+	local img = Instance.new('ImageLabel', button)
+	img.Image = 'rbxassetid://3570695787'
+	img.BackgroundTransparency = 1
+	img.ImageTransparency = 0.5
+	img.ZIndex = button.ZIndex + 1
+	local size = (button.AbsoluteSize.X * 1.5)
+	local x, y = (mouse.X - img.AbsolutePosition.X), (mouse.Y - img.AbsolutePosition.Y)
+	img.Position = UDim2.new(0, x, 0, y)
+	img:TweenSizeAndPosition(UDim2.new(0, size, 0, size), UDim2.new(0.5, (-size / 2), 0.5, (-size / 2)), 'Out', 'Quad', 0.7, true, nil)
+	for i=1,20 do
+		img.ImageTransparency = img.ImageTransparency + 0.05
+		wait()
+		end
+		img:Destroy()
+end
+
+local library = {flags = {}}
+
+local main = Instance.new('ScreenGui', game:GetService'CoreGui')
+local container = Instance.new('Frame', main)
+local tabframeholder = Instance.new('Folder', container)
+local tabholder = Instance.new('Folder', container)
+local list = Instance.new('UIListLayout', tabholder)
+
+container.BackgroundTransparency = 1.000
+container.Position = UDim2.new(0.0199999996, 0, 0.0199999996, 0)
+container.Size = UDim2.new(0, 195, 0, 0)
+
+list.SortOrder = Enum.SortOrder.LayoutOrder
+list.Padding = UDim.new(0, 2)
+
+function library:Tab(tabname, descriptionenabled, descriptiontext, linecolor)
+	if descriptiontext == nil then descriptiontext = tabname end
+	if linecolor == nil then linecolor = Color3.fromRGB(255,255,255) end
+
+	local tab = Instance.new('Frame', tabholder)
+	local descriptionholder = Instance.new('Frame', tab)
+	local description = Instance.new('Frame', descriptionholder)
+	local desctext = Instance.new('TextLabel', description)
+	local line = Instance.new('Frame', tab)
+	local open = Instance.new('TextButton', tab)
+	local title = Instance.new('TextLabel', tab)
+	
+	tab.BackgroundColor3 = Color3.fromRGB(34, 34, 34)
+	tab.BorderSizePixel = 0
+	tab.Position = UDim2.new(0, 0, 0, 0)
+	tab.Size = UDim2.new(0, 195, 0, 27)
+	
+	descriptionholder.BackgroundTransparency = 1.000
+	descriptionholder.BorderSizePixel = 0
+	descriptionholder.ClipsDescendants = true
+	descriptionholder.Position = UDim2.new(1, 4, 0, 0)
+	descriptionholder.Size = UDim2.new(0, 195, 0, 27)
+	
+	description.BackgroundColor3 = Color3.fromRGB(34, 34, 34)
+	description.BorderSizePixel = 0
+	description.Position = UDim2.new(-1, 0, 0, 0)
+	description.Size = UDim2.new(0, 195, 0, 27)
+	
+	desctext.BackgroundTransparency = 1.000
+	desctext.Position = UDim2.new(0.0434782617, 0, 0, 0)
+	desctext.Size = UDim2.new(0.955521762, 0, 1, 0)
+	desctext.Font = Enum.Font.SourceSansItalic
+	desctext.Text = descriptiontext
+	desctext.TextColor3 = Color3.fromRGB(255, 255, 255)
+	desctext.TextSize = 20.000
+	desctext.TextXAlignment = Enum.TextXAlignment.Left
+	
+	line.BackgroundColor3 = linecolor
+	line.BorderSizePixel = 0
+	line.Position = UDim2.new(0.5, 0, 0.912999988, 0)
+	line.Size = UDim2.new(0, 0, 0, 2)
+	
+	open.BackgroundTransparency = 1.000
+	open.ClipsDescendants = true
+	open.Size = UDim2.new(1, 0, 1, 0)
+	open.Text = ""
+	
+	title.BackgroundTransparency = 1.000
+	title.Position = UDim2.new(0.0434782617, 0, 0, 0)
+	title.Size = UDim2.new(0.955521762, 0, 1, 0)
+	title.Font = Enum.Font.SourceSans
+	title.Text = tabname
+	title.TextColor3 = Color3.fromRGB(255, 255, 255)
+	title.TextSize = 19.000
+	title.TextXAlignment = Enum.TextXAlignment.Left
+	
+	local tabframe = Instance.new('Frame', tabframeholder)
+	local list = Instance.new('UIListLayout', tabframe)
+	local sizeholder = Instance.new('Frame', tabframe)
+	
+	tabframe.BackgroundColor3 = Color3.fromRGB(34, 34, 34)
+	tabframe.BorderSizePixel = 0
+	tabframe.ClipsDescendants = true
+	tabframe.Position = UDim2.new(1, 4, 0, 0)
+	tabframe.Size = UDim2.new(1, 0, 0, 0)
+	tabframe.ZIndex = 2
+
+	sizeholder.Size = UDim2.new(0, 195, 0, 0)
+	sizeholder.Visible = false
+	
+	
+	if descriptionenabled == true then
+		descriptionholder.Visible = true
+	else
+		descriptionholder.Visible = false
+	end
+	
+	open.MouseButton1Click:connect(function()
+		spawn(function()
+		ripple(open)
+		end)
+		for i,v in pairs(tabframeholder:GetChildren()) do
+			if v ~= tabframe and v.AbsoluteSize.Y > 1 then
+			v:TweenSize(UDim2.new(1, 0, 0, 0), "Out", "Quad", 0.25, false, nil)
+			wait(0.55)
+			end
+		end
+		if tabframe.AbsoluteSize.Y < 1 then
+			tabframe:TweenSize(UDim2.new(1, 0, 0, sizeholder.AbsoluteSize.Y), "Out", "Quad", 0.25, false, nil)
+		else
+			tabframe:TweenSize(UDim2.new(1, 0, 0, 0), "Out", "Quad", 0.25, false, nil)
+		end
+	end)
+	tab.MouseEnter:connect(function()
+		line:TweenSizeAndPosition(UDim2.new(1,0,0,2), UDim2.new(0, 0, 0.913, 0), 'Out', 'Quad', 0.15, true, nil)
+	if tabframe.AbsoluteSize.Y < 1 then
+		description:TweenPosition(UDim2.new(0, 0, 0, 0), 'Out', 'Quad', 0.15, true)
+		end
+	end)
+	tab.MouseLeave:connect(function()
+		line:TweenSizeAndPosition(UDim2.new(0,0,0,2), UDim2.new(0.5, 0, 0.913, 0), 'Out', 'Quad', 0.15, true, nil)
+		description:TweenPosition(UDim2.new(-1, 0, 0, 0), 'Out', 'Quad', 0.15, true)
+	end)
+	
+	local functionlibrary = {}
+	local togglelist = {}
+	function functionlibrary:Button(name, callback)
+	local buttonholder = Instance.new('Frame', tabframe)
+	local button = Instance.new('TextButton', buttonholder)
+	
+	buttonholder.BackgroundTransparency = 1.000
+	buttonholder.Size = UDim2.new(1, 0, 0, 27)
+	
+	button.BackgroundColor3 = Color3.fromRGB(27, 27, 27)
+	button.BorderSizePixel = 0
+	button.ClipsDescendants = true
+	button.Size = UDim2.new(1, 0, 1, 0)
+	button.AutoButtonColor = false
+	button.Font = Enum.Font.SourceSans
+	button.TextColor3 = Color3.fromRGB(255, 255, 255)
+	button.TextSize = 17.000
+	button.Text = name
+	button.ZIndex = 3
+	resize(sizeholder, 27)
+	button.MouseButton1Click:connect(callback)
+	button.MouseButton1Click:connect(function()
+		ripple(button)
+	end)
+	end
+	function functionlibrary:Toggle(name, flag)
+		local toggled = false
+	local toggleholder = Instance.new('Frame', tabframe)
+	local togglename = Instance.new('TextLabel', toggleholder)
+	local togglebutton = Instance.new('TextButton', toggleholder)
+	local round = Instance.new('ImageLabel', togglebutton)
+	local outline = Instance.new('ImageLabel', togglebutton)
+	local checkmark = Instance.new('Frame', togglebutton)
+	local checkmarkimg = Instance.new('ImageButton', checkmark)
+	
+	toggleholder.BackgroundTransparency = 1.000
+	toggleholder.Size = UDim2.new(1, 0, 0, 27)
+	
+	togglename.BackgroundTransparency = 1.000
+	togglename.BorderSizePixel = 0
+	togglename.Position = UDim2.new(0.0358974375, 0, 0, 0)
+	togglename.Size = UDim2.new(0.953846157, 0, 0, 27)
+	togglename.Font = Enum.Font.SourceSans
+	togglename.Text = name
+	togglename.TextColor3 = Color3.fromRGB(255, 255, 255)
+	togglename.TextSize = 17.000
+	togglename.TextXAlignment = Enum.TextXAlignment.Left
+	togglename.ZIndex = 3
+	
+	togglebutton.BackgroundTransparency = 1
+	togglebutton.BorderSizePixel = 0
+	togglebutton.Position = UDim2.new(0.870000005, 0, 0.150000006, 0)
+	togglebutton.Size = UDim2.new(0, 20, 0, 20)
+	togglebutton.Font = Enum.Font.SourceSans
+	togglebutton.Text = ""
+	togglebutton.ZIndex = 5
+	
+	round.AnchorPoint = Vector2.new(0.5, 0.5)
+	round.BackgroundTransparency = 1.000
+	round.Position = UDim2.new(0.5, 0, 0.5, 0)
+	round.Size = UDim2.new(1, 0, 1, 0)
+	round.ZIndex = 2
+	round.Image = "rbxassetid://3570695787"
+	round.ImageColor3 = Color3.fromRGB(34, 34, 34)
+	round.ScaleType = Enum.ScaleType.Slice
+	round.SliceCenter = Rect.new(100, 100, 100, 100)
+	round.ZIndex = 4
+	round.SliceScale = 0.02
+	
+	outline.AnchorPoint = Vector2.new(0.5, 0.5)
+	outline.BackgroundTransparency = 1.000
+	outline.Position = UDim2.new(0.5, 0, 0.5, 0)
+	outline.Size = UDim2.new(1, 2, 1, 2)
+	outline.Image = "rbxassetid://3570695787"
+	outline.ScaleType = Enum.ScaleType.Slice
+	outline.SliceScale = 0.02
+	outline.SliceCenter = Rect.new(100, 100, 100, 100)
+	outline.ZIndex = 3
+	
+	checkmark.BackgroundTransparency = 1.000
+	checkmark.Size = UDim2.new(0, 0, 0, 16)
+	checkmark.ClipsDescendants = true
+	
+	checkmarkimg.BackgroundTransparency = 1.000
+	checkmarkimg.Position = UDim2.new(0, 2, 0, 2)
+	checkmarkimg.Size = UDim2.new(0, 16, 0, 16)
+	checkmarkimg.ZIndex = 6
+	checkmarkimg.Image = "rbxassetid://4941991765"
+	resize(sizeholder, 27)
+	togglebutton.MouseButton1Click:connect(function()
+		toggled = not toggled
+		if toggled then
+			checkmark:TweenSize(UDim2.new(0, 16, 0, 16), "Out", "Quad", 0.5, false, nil)
+			else
+			checkmark:TweenSize(UDim2.new(0, 0, 0, 16), "Out", "Quad", 0.5, false, nil)
+		end
+		library.flags[flag] = toggled
+	end)
+		checkmarkimg.MouseButton1Click:connect(function()
+		toggled = not toggled
+		if toggled then
+			checkmark:TweenSize(UDim2.new(0, 16, 0, 16), "Out", "Quad", 0.5, false, nil)
+			else
+			checkmark:TweenSize(UDim2.new(0, 0, 0, 16), "Out", "Quad", 0.5, false, nil)
+		end
+		library.flags[flag] = toggled
+	end)
+	end
+	function functionlibrary:Label(text)
+		resize(sizeholder, 27)
+		local labelholder = Instance.new('Frame', tabframe)
+		local label = Instance.new('TextLabel', labelholder)
+		
+		labelholder.BackgroundTransparency = 1.000
+		labelholder.Size = UDim2.new(1, 0, 0, 27)
+		
+		label.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+		label.BorderSizePixel = 0
+		label.Size = UDim2.new(1, 0, 1, 0)
+		label.Font = Enum.Font.SourceSans
+		label.TextColor3 = Color3.fromRGB(255, 255, 255)
+		label.TextSize = 18.000
+		label.Text = text
+		label.ZIndex = 3
+	end
+	function functionlibrary:Box(text, placeholdertext, callback)
+		if placeholdertext == nil then placeholdertext = '' end
+		resize(sizeholder, 27)
+		local boxholder = Instance.new('Frame', tabframe)
+		local title = Instance.new('TextLabel', boxholder)
+		local box = Instance.new('TextBox', boxholder)
+		local round = Instance.new('ImageLabel', box)
+		local outline = Instance.new('ImageLabel', box)
+		
+		boxholder.BackgroundTransparency = 1.000
+		boxholder.Size = UDim2.new(1, 0, 0, 27)
+		
+		title.BackgroundTransparency = 1.000
+		title.BorderSizePixel = 0
+		title.Position = UDim2.new(0.0358974375, 0, 0, 0)
+		title.Size = UDim2.new(0.953846157, 0, 0, 27)
+		title.Font = Enum.Font.SourceSans
+		title.Text = text
+		title.TextColor3 = Color3.fromRGB(255, 255, 255)
+		title.TextSize = 17.000
+		title.TextXAlignment = Enum.TextXAlignment.Left
+		title.ZIndex = 3
+		
+		box.BackgroundTransparency = 1.000
+		box.Position = UDim2.new(0.472000003, 0, 0.150000006, 0)
+		box.Size = UDim2.new(0.5, 0, 0, 20)
+		box.ZIndex = 5
+		box.Font = Enum.Font.SourceSans
+		box.PlaceholderText = placeholdertext
+		box.Text = ""
+		box.TextColor3 = Color3.fromRGB(255, 255, 255)
+		box.TextSize = 14.000
+		
+		round.AnchorPoint = Vector2.new(0.5, 0.5)
+		round.BackgroundTransparency = 1.000
+		round.Position = UDim2.new(0.5, 0, 0.5, 0)
+		round.Selectable = true
+		round.Size = UDim2.new(1, 0, 1, 0)
+		round.ZIndex = 4
+		round.Image = "rbxassetid://3570695787"
+		round.ImageColor3 = Color3.fromRGB(34, 34, 34)
+		round.ScaleType = Enum.ScaleType.Slice
+		round.SliceScale = 0.02
+		round.SliceCenter = Rect.new(100, 100, 100, 100)
+		
+		outline.AnchorPoint = Vector2.new(0.5, 0.5)
+		outline.BackgroundTransparency = 1.000
+		outline.Position = UDim2.new(0.5, 0, 0.5, 0)
+		outline.Size = UDim2.new(1, 2, 1, 2)
+		outline.Image = "rbxassetid://3570695787"
+		outline.ScaleType = Enum.ScaleType.Slice
+		outline.SliceScale = 0.02
+		outline.SliceCenter = Rect.new(100, 100, 100, 100)
+		outline.ZIndex = 3
+		
+    box.FocusLost:connect(function()
+        callback(box.Text)
+    end)
+	end
+	function functionlibrary:Slider(name, min, max, callback)
+		resize(sizeholder, 27)
+		local sliderholder = Instance.new('Frame', tabframe)
+		local sliderline = Instance.new('Frame', sliderholder)
+		local fill = Instance.new('Frame', sliderline)
+		local sliderbutton = Instance.new('TextButton', fill)
+		local number = Instance.new('TextLabel', sliderholder)
+		local title = Instance.new('TextLabel', sliderholder)
+		
+		sliderholder.BackgroundTransparency = 1.000
+		sliderholder.Size = UDim2.new(1, 0, 0, 27)
+		
+		sliderline.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+		sliderline.BorderSizePixel = 0
+		sliderline.Position = UDim2.new(0.632820487, 0, 0.5, 0)
+		sliderline.Size = UDim2.new(0, 64, 0, 1)
+		sliderline.ZIndex = 3
+		
+		fill.BackgroundColor3 = Color3.fromRGB(140, 140, 140)
+		fill.BorderSizePixel = 0
+		fill.Size = UDim2.new(0, 0, 1, 0)
+		fill.ZIndex = 4
+		
+		sliderbutton.BackgroundColor3 = Color3.fromRGB(140, 140, 140)
+		sliderbutton.BorderSizePixel = 0
+		sliderbutton.Position = UDim2.new(1, -sliderbutton.AbsoluteSize.X, -6, 0)
+		sliderbutton.Size = UDim2.new(0, 3, 0, 14)
+		sliderbutton.AutoButtonColor = false
+		sliderbutton.Text = ""
+		sliderbutton.ZIndex = 4
+		
+		number.BackgroundTransparency = 1.000
+		number.Position = UDim2.new(0.592051208, 0, 0.120000206, 0)
+		number.Size = UDim2.new(0, 0, 0, 20)
+		number.Font = Enum.Font.SourceSans
+		number.Text = min
+		number.TextColor3 = Color3.fromRGB(255, 255, 255)
+		number.TextSize = 16.000
+		number.TextXAlignment = Enum.TextXAlignment.Right
+		number.ZIndex = 3
+		number.TextTransparency = 1
+		
+		title.BackgroundTransparency = 1.000
+		title.Position = UDim2.new(0.0358974375, 0, 0, 0)
+		title.Size = UDim2.new(0.953846157, 0, 0, 27)
+		title.Font = Enum.Font.SourceSans
+		title.Text = name
+		title.TextColor3 = Color3.fromRGB(255, 255, 255)
+		title.TextSize = 17.000
+		title.TextXAlignment = Enum.TextXAlignment.Left
+		title.ZIndex = 4
+    local function slide(input)
+        local pos = UDim2.new(math.clamp((input.Position.X - sliderline.AbsolutePosition.X) / sliderline.AbsoluteSize.X, 0, 1), 0, 1, 0)
+        fill:TweenSize(pos, Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.1, true)
+        local value = math.floor(((pos.X.Scale * max) / max) * (max - min) + min)
+        number.Text = tostring(value)
+        callback(value)
+    end
+    sliderbutton.InputBegan:connect(function(input)
+		if input.UserInputType == Enum.UserInputType.MouseButton1 then
+			dragging = true
+			for i=1,10 do
+				number.TextTransparency = number.TextTransparency - 0.1
+				wait()
+			end
+		end
+	end)
+	
+	sliderbutton.InputEnded:connect(function(input)
+		if input.UserInputType == Enum.UserInputType.MouseButton1 then
+			dragging = false
+				for i=1,10 do
+				number.TextTransparency = number.TextTransparency + 0.1
+				wait()
+			end
+		end
+    end)
+    sliderline.InputBegan:connect(function(input)
+		if input.UserInputType == Enum.UserInputType.MouseButton1 then
+			dragging = true
+				for i=1,10 do
+				number.TextTransparency = number.TextTransparency - 0.1
+				wait()
+			end
+		end
+	end)
+	
+	sliderline.InputEnded:connect(function(input)
+		if input.UserInputType == Enum.UserInputType.MouseButton1 then
+			dragging = false
+				for i=1,10 do
+				number.TextTransparency = number.TextTransparency - 0.1
+				wait()
+			end
+		end
+    end)
+	
+	sliderline.InputBegan:connect(function(input)
+		if input.UserInputType == Enum.UserInputType.MouseButton1 then
+			slide(input)
+		end
+	end)
+
+	game:GetService("UserInputService").InputChanged:connect(function(input)
+		if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
+			slide(input)
+		end
+	end)
+end
+	return functionlibrary;
+end
+return library;
