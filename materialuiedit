@@ -2103,7 +2103,7 @@ function Material.Load(Config)
 			
 			Toggle.MouseButton1Down:Connect(function()
 				ToggleDefault = not ToggleDefault
-				TweenService:Create(Dot, TweenInfo.new(0.15), {Position = (ToggleDefault and UDim2.fromScale(1,0.5) or UDim2.fromScale(0,0.5)) - UDim2.fromOffset(8,8), ToggleDefault and ImageColor3 = Color3.new(255, 255, 255) or Color3.new(200, 200, 200)}):Play()
+				TweenService:Create(Dot, TweenInfo.new(0.15), {Position = (ToggleDefault and UDim2.fromScale(1,0.5) or UDim2.fromScale(0,0.5)) - UDim2.fromOffset(8,8), ImageColor3 = (ToggleDefault and Color3.new(255, 255, 255) or Color3.new(200, 200, 200))}):Play()
 				ToggleCallback(ToggleDefault)
 				CircleAnim(ToggleLabel, Theme.ToggleAccent, Theme.Toggle)
 			end)
