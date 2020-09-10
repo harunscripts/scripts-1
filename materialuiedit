@@ -2364,4 +2364,19 @@ function Material.Load(Config)
 				SliderDot.Position = UDim2.fromScale(DefaultScale,0.5) - UDim2.fromOffset(SizeFromScale/2,SizeFromScale/2)
 			end
 			
-			return Material
+			function SliderLibrary:GetMin()
+				return SliderMin
+			end
+			
+			function SliderLibrary:GetMax()
+				return SliderMax
+			end
+			
+			return SliderLibrary
+		end
+		
+		return OptionLibrary
+	end
+	
+	return TabLibrary
+end
