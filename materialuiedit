@@ -2071,7 +2071,7 @@ function Material.Load(Config)
 			Dot.Name = "Dot"
 			Dot.Size = UDim2.fromOffset(16,16)
 			Dot.Position = UDim2.fromScale(0,0.5) - UDim2.fromOffset(8,8)
-			Dot.ImageColor3 = Theme.ToggleAccent
+			Dot.ImageColor3 = Color3.new(255, 255, 255)
 			Dot.ImageTransparency = 1
 			Dot.Parent = ToggleTracker
 			
@@ -2098,12 +2098,12 @@ function Material.Load(Config)
 			TweenService:Create(Dot, TweenInfo.new(0.5), {ImageTransparency = 0}):Play()
 			TweenService:Create(DotShadow, TweenInfo.new(0.5), {ImageTransparency = 0.5}):Play()
 			
-			TweenService:Create(Dot, TweenInfo.new(0.15), {Position = (ToggleDefault and UDim2.fromScale(1,0.5) or UDim2.fromScale(0,0.5)) - UDim2.fromOffset(8,8), ImageColor3 = ToggleDefault and Theme.Toggle or Theme.ToggleAccent}):Play()
+			TweenService:Create(Dot, TweenInfo.new(0.15), {Position = (ToggleDefault and UDim2.fromScale(1,0.5) or UDim2.fromScale(0,0.5)) - UDim2.fromOffset(8,8), ImageColor3 = Color3.new(200, 200, 200)}):Play()
 			ToggleCallback(ToggleDefault)
 			
 			Toggle.MouseButton1Down:Connect(function()
 				ToggleDefault = not ToggleDefault
-				TweenService:Create(Dot, TweenInfo.new(0.15), {Position = (ToggleDefault and UDim2.fromScale(1,0.5) or UDim2.fromScale(0,0.5)) - UDim2.fromOffset(8,8), ImageColor3 = ToggleDefault and Theme.Toggle or Theme.ToggleAccent}):Play()
+				TweenService:Create(Dot, TweenInfo.new(0.15), {Position = (ToggleDefault and UDim2.fromScale(1,0.5) or UDim2.fromScale(0,0.5)) - UDim2.fromOffset(8,8), ImageColor3 = Color3.new(200, 200, 200)}):Play()
 				ToggleCallback(ToggleDefault)
 				CircleAnim(ToggleLabel, Theme.ToggleAccent, Theme.Toggle)
 			end)
