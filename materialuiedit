@@ -2380,3 +2380,5 @@ function Material.Load(Config)
 	
 	return TabLibrary
 end
+
+return Material
