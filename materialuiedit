@@ -1121,7 +1121,7 @@ function Material.Load(Config)
 		end
 		
 		function OptionLibrary.Dropdown(DropdownConfig)
-			local DropdownText = tosrting(DropdownConfig.Text) or "nil dropdown"
+			local DropdownText = tostring(DropdownConfig.Text) or "nil dropdown"
 			local DropdownCallback = DropdownConfig.Callback or function() print("nil dropdown") end
 			local DropdownOptions = DropdownConfig.Options or {}
 			local Menu = DropdownConfig.Menu or {}
