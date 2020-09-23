@@ -1258,14 +1258,12 @@ function Material.Load(Config)
 	
 	                local Button = Objects.new("SmoothButton", DropdownContent)
 	                Button.Name = "Button"
-	                Button.Size = UDim2.fromScale(1,0) + UDim2.fromOffset(0,30)
+	                Button.Size = UDim2.fromScale(1,0) + UDim2.fromOffset(0,20)
 	                Button.ImageColor3 = ThisTheme.Button
-	                Button.ImageTransparency = 0
 	                Button.Parent = Parent
 	
 	                local ButtonShadow = Objects.new("Shadow")
 	                ButtonShadow.ImageColor3 = ThisTheme.Button
-	                ButtonShadow.ImageTransparency = 0
 	                ButtonShadow.Parent = Button
 	
 	                local ButtonLabel = Objects.new("Label")
@@ -1274,15 +1272,11 @@ function Material.Load(Config)
 	                ButtonLabel.Font = Enum.Font.GothamSemibold
 	                ButtonLabel.TextSize = 14
 	                ButtonLabel.ClipsDescendants = true
-	                ButtonLabel.TextTransparency = 0
 	                ButtonLabel.Parent = Button
 					
                     Button.MouseButton1Down:Connect(function()
 		                CircleAnim(ButtonLabel, ThisTheme.ButtonAccent, ThisTheme.Button)
 	                end)
-
-
-					Button.Size = UDim2.fromScale(1,0) + UDim2.fromOffset(0,20)
 
 					Button.MouseButton1Down:Connect(function()
 						DropdownCallback(Value)
