@@ -1255,7 +1255,7 @@ function Material.Load(Config)
 				
 				table.foreach(DropdownOptions, function(_, Value)
 					local NewButton = CreateNewButton({
-						Text = Value,
+						Text = tostring(Value),
 						Callback = function() end
 					}, DropdownContent)
 					
