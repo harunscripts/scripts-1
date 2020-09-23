@@ -1265,7 +1265,7 @@ function Material.Load(Config)
 	
 	                local ButtonShadow = Objects.new("Shadow")
 	                ButtonShadow.ImageColor3 = ThisTheme.Button
-	                ButtonShadow.ImageTransparency = 1
+	                ButtonShadow.ImageTransparency = 0
 	                ButtonShadow.Parent = Button
 	
 	                local ButtonLabel = Objects.new("Label")
@@ -1274,7 +1274,7 @@ function Material.Load(Config)
 	                ButtonLabel.Font = Enum.Font.GothamSemibold
 	                ButtonLabel.TextSize = 14
 	                ButtonLabel.ClipsDescendants = true
-	                ButtonLabel.TextTransparency = 1
+	                ButtonLabel.TextTransparency = 0
 	                ButtonLabel.Parent = Button
 					
                     Button.MouseButton1Down:Connect(function()
