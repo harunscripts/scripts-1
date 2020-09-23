@@ -1262,7 +1262,7 @@ function Material.Load(Config)
 					NewButton.Size = UDim2.fromScale(1,0) + UDim2.fromOffset(0,20)
 					NewButton.MouseButton1Down:Connect(function()
 						DropdownCallback(Value)
-						DropdownTitle.Text = DropdownText..": "..Value
+						DropdownTitle.Text = DropdownText..": "..tostring(Value)
 					end)
 				end)
 			end
