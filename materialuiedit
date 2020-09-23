@@ -1260,7 +1260,7 @@ function Material.Load(Config)
 	                Button.Name = "Button"
 	                Button.Size = UDim2.fromScale(1,0) + UDim2.fromOffset(0,30)
 	                Button.ImageColor3 = ThisTheme.Button
-	                Button.ImageTransparency = 1
+	                Button.ImageTransparency = 0
 	                Button.Parent = Parent
 	
 	                local ButtonShadow = Objects.new("Shadow")
