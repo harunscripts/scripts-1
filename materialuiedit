@@ -1253,12 +1253,14 @@ function Material.Load(Config)
 				DropdownList.Padding = UDim.new(0,5)
 				DropdownList.Parent = DropdownContent
 				
-				table.foreach(DropdownOptions, function(_, Value)
-                    local ButtonText = tostring(Value)
+                local function ButtonCreate(ButtonConfig, Parent)
+                    local ButtonText = ButtonConfig.Text or "nil button"
+	                local ButtonCallback = ButtonConfig.Callback or function() print("nil button") end
+	                local Menu = ButtonConfig.Menu or {}
 	
-	                local Button = Objects.new("SmoothButton", DropdownContent)
+	                local Button = Objects.new("SmoothButton")
 	                Button.Name = "Button"
-	                Button.Size = UDim2.fromScale(1,0) + UDim2.fromOffset(0,20)
+	                Button.Size = UDim2.fromScale(1,0) + UDim2.fromOffset(0,30)
 	                Button.ImageColor3 = ThisTheme.Button
 	                Button.Parent = Parent
 	
@@ -1273,12 +1275,24 @@ function Material.Load(Config)
 	                ButtonLabel.TextSize = 14
 	                ButtonLabel.ClipsDescendants = true
 	                ButtonLabel.Parent = Button
-					
+
                     Button.MouseButton1Down:Connect(function()
 		                CircleAnim(ButtonLabel, ThisTheme.ButtonAccent, ThisTheme.Button)
+		                ButtonCallback()
 	                end)
 
-					Button.MouseButton1Down:Connect(function()
+                    return Button, ButtonLabel
+                end
+
+
+				table.foreach(DropdownOptions, function(_, Value)
+                    local NewButton = ButtonCreate({
+						Text = Value,
+						Callback = function() end
+					}, DropdownContent)
+
+                    NewButton.Size = UDim2.fromScale(1,0) + UDim2.fromOffset(0,20)
+					NewButton.MouseButton1Down:Connect(function()
 						DropdownCallback(Value)
 						DropdownTitle.Text = DropdownText..": "..tostring(Value)
 					end)
