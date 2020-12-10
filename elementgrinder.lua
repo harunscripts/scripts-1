@@ -1,4 +1,3 @@
-
 getgenv().spinning = false
 getgenv().disablerespawn = false
 
@@ -91,6 +90,7 @@ function levelfarm()
 end
 
 if getgenv().Settings.ElementFarm == true then
+	farmuntillevel()
 	startfarm()
 elseif getgenv().Settings.LevelFarm == true then
 	levelfarm()
