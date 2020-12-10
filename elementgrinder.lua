@@ -92,6 +92,7 @@ end
 if getgenv().Settings.ElementFarm == true then
 	farmuntillevel()
 	startfarm()
-elseif getgenv().Settings.LevelFarm == true then
+end
+if getgenv().Settings.LevelFarm == true then
 	levelfarm()
 end
