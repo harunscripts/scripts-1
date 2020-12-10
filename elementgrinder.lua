@@ -1,0 +1,97 @@
+
+getgenv().spinning = false
+getgenv().disablerespawn = false
+
+local client = game:service("ReplicatedStorage"):WaitForChild(game:service("Players").LocalPlayer.UserId .. "Client")
+
+function firemoves()
+    for i,v in pairs(game:service("Players").LocalPlayer.Backpack:GetChildren()) do
+        client.StartMove:FireServer(tostring(v))
+        client.EndMove:FireServer(tostring(v))
+    end
+end
+
+function restartplayer()
+	game:service("ReplicatedStorage").Client.StartGame:FireServer()
+	game:service("ReplicatedStorage").Client.Intro:InvokeServer()
+	game:service("ReplicatedStorage").Client.Teleport:InvokeServer()
+	workspace.CurrentCamera.CameraType = Enum.CameraType.Custom
+	workspace.CurrentCamera.CameraSubject = game:service("Players").LocalPlayer.Character.Humanoid
+	game:service("Players").LocalPlayer.PlayerGui.IntroGui.Enabled = false
+	game:service("Players").LocalPlayer.PlayerGui.StatsGui.Enabled = true
+end
+
+game:service("Players").LocalPlayer.CharacterAdded:connect(function()
+	if not getgenv().disablerespawn then
+		restartplayer()
+	else
+		getgenv().disablerespawn = false
+	end
+end)
+
+function getlevel()
+    for i,v in pairs(game:service("ReplicatedStorage").Client.GetLevels:InvokeServer()) do
+        for i2, v2 in pairs(v) do
+            if v2 == game:service("Players").LocalPlayer then
+                return v[2]
+            end
+         end
+    end
+end
+
+function farmuntillevel()
+    repeat
+        wait(.1)
+        firemoves()
+    until
+		getlevel() >= getgenv().Settings.LevelBeforeSpinning
+	game:service("Players").LocalPlayer.Character.Humanoid.Health = 0
+	getgenv().spinning = true
+end
+
+function checkelement(element)
+    for i,v in pairs(getgenv().Settings.ElementsToFarm) do
+        if tostring(element) == v then
+            return true
+        end
+    end
+end
+
+function startfarm()
+	while wait(.1) do
+		if getgenv().Settings.ElementFarm == true then
+			if not checkelement(game:service("ReplicatedStorage").Client.GetElement:InvokeServer()) then
+				if getgenv().spinning then
+					getgenv().disablerespawn = true
+					game:service("ReplicatedStorage").Client.Spin:InvokeServer()
+					print("new element: " .. game:service("ReplicatedStorage").Client.GetElement:InvokeServer())
+				end
+				if game:service("ReplicatedStorage").Client.GetSpins:InvokeServer() <= 0 then
+					getgenv().spinning = false
+					getgenv().disablerespawn = false
+					restartplayer()
+					farmuntillevel()
+				end
+			else
+				getgenv().Settings.ElementFarm = false
+				if getgenv().Settings.LevelFarm == true then
+					levelfarm()
+				end
+			end
+		end
+	end
+end
+
+function levelfarm()
+	repeat
+		wait(.1)
+		firemoves()
+	until
+		getlevel() >= getgenv().Settings.MaxLevel
+end
+
+if getgenv().Settings.ElementFarm == true then
+	startfarm()
+elseif getgenv().Settings.LevelFarm == true then
+	levelfarm()
+end
