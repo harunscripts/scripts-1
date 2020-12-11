@@ -26,11 +26,12 @@ function restartplayer()
 		local platform = Instance.new("Part", workspace)
 		platform.Name = "platform:weary:"
 		platform.Size = Vector3.new(1000, 10, 1000)
-		platform.Position = Vector3.new(0, 10000, 0)
+		platform.Position = Vector3.new(0, math.random(10000, 500000), 0)
 		platform.Anchored = true
 		platform.Transparency = 1
 	end
 	game:service("Players").LocalPlayer.Character:MoveTo(workspace["platform:weary:"].Position)
+	workspace["platform:weary:"]:Destroy()
 end
 
 game:service("Players").LocalPlayer.CharacterAdded:connect(function()
