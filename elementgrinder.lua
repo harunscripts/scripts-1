@@ -1,3 +1,7 @@
+if not isfile("spincounter.vozoid") then
+	writefile("spincounter.vozoid", "0")
+end
+
 getgenv().spinning = false
 getgenv().disablerespawn = false
 
@@ -72,7 +76,8 @@ function startfarm()
 				if getgenv().spinning then
 					getgenv().disablerespawn = true
 					game:service("ReplicatedStorage").Client.Spin:InvokeServer()
-					print("new element: " .. game:service("ReplicatedStorage").Client.GetElement:InvokeServer())
+					writefile("spincounter.vozoid", tostring((tonumber(readfile("spincounter.vozoid")) + 1)))
+					print("new element: " .. game:service("ReplicatedStorage").Client.GetElement:InvokeServer() .. " - total spins: " .. readfile("spincounter.vozoid"))
 				end
 				if game:service("ReplicatedStorage").Client.GetSpins:InvokeServer() <= 0 then
 					getgenv().spinning = false
