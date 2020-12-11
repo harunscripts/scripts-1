@@ -24,6 +24,7 @@ function restartplayer()
 		platform.Size = Vector3.new(1000, 10, 1000)
 		platform.Position = Vector3.new(0, 10000, 0)
 		platform.Anchored = true
+		platform.Transparency = 1
 	end
 	game:service("Players").LocalPlayer.Character:MoveTo(workspace["platform:weary:"].Position)
 end
