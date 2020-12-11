@@ -104,9 +104,9 @@ function restartplayer()
 		platform.Size = Vector3.new(1000, 10, 1000)
 		platform.Position = Vector3.new(0, math.random(10000, 100000), 0)
 		platform.Anchored = true
-		platform.Transparency = 1
+		platform.Transparency = 0
 	end
-	game:service("Players").LocalPlayer.Character:MoveTo(workspace["platform:weary:"].Position)
+	game:service("Players").LocalPlayer.Character:MoveTo(workspace["platform:weary:"].Position + Vector3.new(0, 5, 0))
 end
 
 game:service("Players").LocalPlayer.CharacterAdded:connect(function()
