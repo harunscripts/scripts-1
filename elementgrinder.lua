@@ -19,6 +19,9 @@ holder.ScrollBarThickness = 5
 local list = Instance.new("UIListLayout")
 list.Parent = holder
 list.SortOrder = Enum.SortOrder.LayoutOrder
+list:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
+	holder.CanvasSize = UDim2.new(0, 0, 0, list.AbsoluteContentSize.Y)
+end)
 local title = Instance.new("TextLabel")
 title.Parent = frame
 title.BackgroundTransparency = 1.000
@@ -99,7 +102,7 @@ function restartplayer()
 		local platform = Instance.new("Part", workspace)
 		platform.Name = "platform:weary:"
 		platform.Size = Vector3.new(1000, 10, 1000)
-		platform.Position = Vector3.new(0, math.random(10000, 500000), 0)
+		platform.Position = Vector3.new(0, math.random(10000, 100000), 0)
 		platform.Anchored = true
 		platform.Transparency = 1
 	end
