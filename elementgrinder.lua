@@ -18,6 +18,14 @@ function restartplayer()
 	workspace.CurrentCamera.CameraSubject = game:service("Players").LocalPlayer.Character.Humanoid
 	game:service("Players").LocalPlayer.PlayerGui.IntroGui.Enabled = false
 	game:service("Players").LocalPlayer.PlayerGui.StatsGui.Enabled = true
+	if not workspace:FindFirstChild("platform:weary:") then
+		local platform = Instance.new("Part", workspace)
+		platform.Name = "platform:weary:"
+		platform.Size = Vector3.new(1000, 10, 1000)
+		platform.Position = Vector3.new(0, 10000, 0)
+		platform.Anchored = true
+	end
+	game:service("Players").LocalPlayer.Character:MoveTo(workspace["platform:weary:"].Position)
 end
 
 game:service("Players").LocalPlayer.CharacterAdded:connect(function()
