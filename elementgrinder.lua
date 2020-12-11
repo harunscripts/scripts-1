@@ -22,6 +22,9 @@ function restartplayer()
 	workspace.CurrentCamera.CameraSubject = game:service("Players").LocalPlayer.Character.Humanoid
 	game:service("Players").LocalPlayer.PlayerGui.IntroGui.Enabled = false
 	game:service("Players").LocalPlayer.PlayerGui.StatsGui.Enabled = true
+	if workspace:FindFirstChild("platform:weary:") then
+		workspace["platform:weary:"]:Destroy()
+	end
 	if not workspace:FindFirstChild("platform:weary:") then
 		local platform = Instance.new("Part", workspace)
 		platform.Name = "platform:weary:"
@@ -31,7 +34,6 @@ function restartplayer()
 		platform.Transparency = 1
 	end
 	game:service("Players").LocalPlayer.Character:MoveTo(workspace["platform:weary:"].Position)
-	workspace["platform:weary:"]:Destroy()
 end
 
 game:service("Players").LocalPlayer.CharacterAdded:connect(function()
