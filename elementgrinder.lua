@@ -1,3 +1,71 @@
+local gui = Instance.new("ScreenGui")
+gui.Parent = game:service("CoreGui")
+local frame = Instance.new("Frame")
+frame.Parent = gui
+frame.Active = true
+frame.Draggable = true
+frame.BackgroundColor3 = Color3.fromRGB(33, 33, 33)
+frame.BorderSizePixel = 0
+frame.Position = UDim2.new(0.5, 0, 0.5, 0)
+frame.Size = UDim2.new(0, 201, 0, 280)
+local holder = Instance.new("ScrollingFrame")
+holder.Parent = frame
+holder.Active = true
+holder.BackgroundTransparency = 0.970
+holder.BorderSizePixel = 0
+holder.Position = UDim2.new(0, 0, 0.107, 0)
+holder.Size = UDim2.new(0, 201, 0, 249)
+holder.ScrollBarThickness = 5
+Instance.new("UIListLayout", holder)
+local title = Instance.new("TextLabel")
+title.Parent = frame
+title.BackgroundTransparency = 1.000
+title.Position = UDim2.new(0.05, 0, 0, 0)
+title.Size = UDim2.new(0, 190, 0, 30)
+title.Font = Enum.Font.SourceSans
+title.Text = "Spin Holder"
+title.TextColor3 = Color3.fromRGB(255, 255, 255)
+title.TextSize = 16.000
+title.TextXAlignment = Enum.TextXAlignment.Left
+local search = Instance.new("TextBox")
+search.Parent = frame
+search.BackgroundTransparency = 1.000
+search.ClipsDescendants = true
+search.Position = UDim2.new(0.482587069, 0, 0.021428572, 0)
+search.Size = UDim2.new(0, 95, 0, 17)
+search.Font = Enum.Font.SourceSans
+search.Text = ""
+search.PlaceholderText = "Search"
+search.TextColor3 = Color3.fromRGB(255, 255, 255)
+search.TextSize = 14.000
+
+function insert(element)
+	local label = Instance.new("TextLabel")
+	label.Name = string.upper(element)
+	label.Parent = holder
+	label.BackgroundTransparency = 1
+	label.Size = UDim2.new(1, 0, 0, 17)
+	label.Text = "  " .. element
+	label.Font = Enum.Font.SourceSans
+	label.TextSize = 15.000
+	label.TextColor3 = Color3.fromRGB(255, 255, 255)
+	label.TextXAlignment = Enum.TextXAlignment.Left
+end
+
+function update()
+	local input = string.upper(search.Text)
+	for i,v in pairs(holder:GetChildren()) do
+		if v:IsA("TextLabel") then
+			if input == "" or string.find(string.upper(v.Name), input) ~= nil then
+				v.Visible = true
+			else
+				v.Visible = false
+			end
+		end
+	end
+end
+spawn(function() while wait() do update() end end)
+
 if not isfile("spincounter.vozoid") then
 	writefile("spincounter.vozoid", "0")
 end
@@ -81,6 +149,7 @@ function startfarm()
 					game:service("ReplicatedStorage").Client.Spin:InvokeServer()
 					writefile("spincounter.vozoid", tostring((tonumber(readfile("spincounter.vozoid")) + 1)))
 					print("new element: " .. game:service("ReplicatedStorage").Client.GetElement:InvokeServer() .. " - total spins: " .. readfile("spincounter.vozoid"))
+					insert(game:service("ReplicatedStorage").Client.GetElement:InvokeServer())
 				end
 				if game:service("ReplicatedStorage").Client.GetSpins:InvokeServer() <= 0 then
 					getgenv().spinning = false
