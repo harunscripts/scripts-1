@@ -16,7 +16,9 @@ holder.BorderSizePixel = 0
 holder.Position = UDim2.new(0, 0, 0.107, 0)
 holder.Size = UDim2.new(0, 201, 0, 249)
 holder.ScrollBarThickness = 5
-Instance.new("UIListLayout", holder)
+local list = Instance.new("UIListLayout")
+list.Parent = holder
+list.SortOrder = Enum.SortOrder.LayoutOrder
 local title = Instance.new("TextLabel")
 title.Parent = frame
 title.BackgroundTransparency = 1.000
