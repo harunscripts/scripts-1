@@ -45,16 +45,18 @@ search.TextColor3 = Color3.fromRGB(255, 255, 255)
 search.TextSize = 14.000
 
 function insert(element)
-	local label = Instance.new("TextLabel")
-	label.Name = string.upper(element)
-	label.Parent = holder
-	label.BackgroundTransparency = 1
-	label.Size = UDim2.new(1, 0, 0, 17)
-	label.Text = "  " .. element
-	label.Font = Enum.Font.SourceSans
-	label.TextSize = 15.000
-	label.TextColor3 = Color3.fromRGB(255, 255, 255)
-	label.TextXAlignment = Enum.TextXAlignment.Left
+	pcall(function()
+		local label = Instance.new("TextLabel")
+		label.Name = string.upper(element)
+		label.Parent = holder
+		label.BackgroundTransparency = 1
+		label.Size = UDim2.new(1, 0, 0, 17)
+		label.Text = "  " .. element .. " - Current: " .. getgenv().currentspins .. " - Total: " .. readfile("spincounter.vozoid")
+		label.Font = Enum.Font.SourceSans
+		label.TextSize = 15.000
+		label.TextColor3 = Color3.fromRGB(255, 255, 255)
+		label.TextXAlignment = Enum.TextXAlignment.Left
+	end)
 end
 
 function update()
@@ -77,6 +79,7 @@ end
 
 getgenv().spinning = false
 getgenv().disablerespawn = false
+getgenv().currentspins = 0
 
 local client = game:service("ReplicatedStorage"):WaitForChild(game:service("Players").LocalPlayer.UserId .. "Client")
 
@@ -153,7 +156,8 @@ function startfarm()
 					getgenv().disablerespawn = true
 					game:service("ReplicatedStorage").Client.Spin:InvokeServer()
 					writefile("spincounter.vozoid", tostring((tonumber(readfile("spincounter.vozoid")) + 1)))
-					print("new element: " .. game:service("ReplicatedStorage").Client.GetElement:InvokeServer() .. " - total spins: " .. readfile("spincounter.vozoid"))
+					getgenv().currentspins = getgenv().currentspins + 1
+					print("new element: " .. game:service("ReplicatedStorage").Client.GetElement:InvokeServer() .. " - current spins: " .. getgenv().currentspins .. " - total spins: " .. readfile("spincounter.vozoid"))
 					insert(game:service("ReplicatedStorage").Client.GetElement:InvokeServer())
 				end
 				if game:service("ReplicatedStorage").Client.GetSpins:InvokeServer() <= 0 then
@@ -165,6 +169,7 @@ function startfarm()
 			else
 				getgenv().Settings.ElementFarm = false
 				if getgenv().Settings.LevelFarm == true then
+					restartplayer()
 					levelfarm()
 				end
 			end
