@@ -110,6 +110,20 @@ function restartplayer()
 		platform.Transparency = 1
 	end
 	game:service("Players").LocalPlayer.Character:MoveTo(workspace["platform:weary:"].Position + Vector3.new(0, 5, 0))
+	for i,v in pairs(game:service("Players").LocalPlayer.Backpack:GetChildren()) do
+		local a = v:Clone()
+		if a.Name:find("%(") then
+			a.Name = string.sub(a.Name, 1, -5)
+		end
+		a.Parent = game:service("Players").LocalPlayer.Backpack
+	end
+	game:service("Players").LocalPlayer.Backpack.ChildAdded:connect(function(child)
+		local a = v:Clone()
+		if a.Name:find("%(") then
+			a.Name = string.sub(a.Name, 1, -5)
+		end
+		a.Parent = game:service("Players").LocalPlayer.Backpack
+	end)
 end
 
 game:service("Players").LocalPlayer.CharacterAdded:connect(function()
@@ -132,7 +146,7 @@ end
 
 function farmuntillevel()
     repeat
-        wait(.1)
+        wait()
         firemoves()
     until
 		getlevel() >= getgenv().Settings.LevelBeforeSpinning
@@ -148,7 +162,7 @@ function checkelement(element)
     end
 end
 
-function startfarm()
+function elementfarm()
 	while wait(.1) do
 		if getgenv().Settings.ElementFarm == true then
 			if not checkelement(game:service("ReplicatedStorage").Client.GetElement:InvokeServer()) then
@@ -179,7 +193,7 @@ end
 
 function levelfarm()
 	repeat
-		wait(.1)
+		wait()
 		firemoves()
 	until
 		getlevel() >= getgenv().Settings.MaxLevel
@@ -187,7 +201,7 @@ end
 
 if getgenv().Settings.ElementFarm == true then
 	farmuntillevel()
-	startfarm()
+	elementfarm()
 end
 if getgenv().Settings.LevelFarm == true then
 	levelfarm()
