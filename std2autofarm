@@ -69,7 +69,7 @@ folder:Toggle("Autofarm Memo",  function(v)
 end)
 
 game:GetService("Players").LocalPlayer.CharacterAppearanceLoaded:connect(function()
-    wait()
+    wait(1)
     if getgenv().settings.autofarm then
         autofarm()
     end
