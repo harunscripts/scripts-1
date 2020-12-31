@@ -29,7 +29,9 @@ function autofarm()
     moveTo("x", -10)
     moveTo("z", -10)
     if getgenv().autofarm then
-        autofarm()
+        if game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
+            autofarm()
+        end
     end
 end
 
@@ -65,12 +67,5 @@ folder:Toggle("Autofarm Memo",  function(v)
                 firetouchinterest(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart, child.Union, 0)
             end
         end
-    end
-end)
-
-game:GetService("Players").LocalPlayer.CharacterAppearanceLoaded:connect(function()
-    wait(1)
-    if getgenv().autofarm then
-        autofarm()
     end
 end)
