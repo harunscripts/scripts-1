@@ -1,0 +1,76 @@
+getgenv().autofarm = false
+getgenv().memofarm = false
+
+if not getgenv().memocounter then 
+    getgenv().memocounter = 0 
+end
+
+function freeze(value)
+    for i,v in pairs(game:GetService("Players").LocalPlayer.Character:GetChildren()) do
+        if v:IsA("BasePart") then
+            v.Anchored = value
+        end
+    end
+end
+
+function moveTo(moveType, moveAmount)
+    for i = 1, 25 do
+        wait()
+        freeze(false)
+        game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame.X + (moveType == "x" and moveAmount or 0), 750, game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame.Z + (moveType == "z" and moveAmount or 0))
+        freeze(true)
+    end
+end
+
+function autofarm()
+    game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-50, 750, -50)
+    moveTo("x", 10)
+    moveTo("z", 10)
+    moveTo("x", -10)
+    moveTo("z", -10)
+    if getgenv().autofarm then
+        autofarm()
+    end
+end
+
+workspace.ChildAdded:connect(function(child)
+    wait()
+    if getgenv().memofarm then
+        if child.Name == "Memo" then
+            getgenv().memocounter = getgenv().memocounter + 1
+            print("memo found - " .. getgenv().memocounter .. " memos found during this session")
+            firetouchinterest(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart, child.Union, 0)
+        end
+    end
+end)
+
+local library = loadstring(game:HttpGet(('https://raw.githubusercontent.com/AikaV3rm/UiLib/master/Lib.lua')))()
+local main = library:CreateWindow("STD2 Autofarm")
+local folder = main:CreateFolder("Autofarm")
+
+folder:Toggle("Autofarm",  function(v)
+    getgenv().autofarm = v
+    if v == true then
+        autofarm()
+    end
+end)
+
+folder:Toggle("Autofarm Memo",  function(v)
+    getgenv().memofarm = v
+    if v == true then
+        for i,v in pairs(workspace:GetChildren()) do
+            if v.Name == "Memo" then
+                getgenv().memocounter = getgenv().memocounter + 1
+                print("memo found - " .. getgenv().memocounter .. " memos found during this session")
+                firetouchinterest(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart, child.Union, 0)
+            end
+        end
+    end
+end)
+
+game:GetService("Players").LocalPlayer.CharacterAppearanceLoaded:connect(function()
+    wait()
+    if getgenv().settings.autofarm then
+        autofarm()
+    end
+end)
