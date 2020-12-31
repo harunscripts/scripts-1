@@ -23,7 +23,7 @@ function moveTo(moveType, moveAmount)
 end
 
 function autofarm()
-    game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-50, 750, -50)
+    game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-125, 750, -125)
     moveTo("x", 10)
     moveTo("z", 10)
     moveTo("x", -10)
