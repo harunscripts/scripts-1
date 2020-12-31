@@ -70,7 +70,7 @@ end)
 
 game:GetService("Players").LocalPlayer.CharacterAppearanceLoaded:connect(function()
     wait(1)
-    if getgenv().settings.autofarm then
+    if getgenv().autofarm then
         autofarm()
     end
 end)
