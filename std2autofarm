@@ -50,7 +50,7 @@ function autofarm()
             end
         end
     end
-    game:GetService("Players").LocalPlayer.Character.Humanoid.Died:connect(function()
+    game:GetService("Players").LocalPlayer.CharacterAppearanceLoaded:connect(function()
         on = false
     end)
 end
