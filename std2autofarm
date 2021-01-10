@@ -65,9 +65,11 @@ workspace.ChildAdded:connect(function(child)
 end)
 
 game:GetService("Players").LocalPlayer.CharacterAppearanceLoaded:connect(function()
-    wait()
-    clientdata[#clientdata] = false
-    autofarm()
+    if getgenv().memofarm then
+        wait()
+        clientdata[#clientdata] = false
+        autofarm()
+    end
 end)
 
 local library = loadstring(game:HttpGet(('https://raw.githubusercontent.com/AikaV3rm/UiLib/master/Lib.lua')))()
