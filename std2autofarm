@@ -14,25 +14,45 @@ function freeze(value)
 end
 
 function moveTo(moveType, moveAmount)
+    local on = true
     for i = 1, 25 do
-        wait()
-        freeze(false)
-        game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame.X + (moveType == "x" and moveAmount or 0), 750, game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame.Z + (moveType == "z" and moveAmount or 0))
-        freeze(true)
+        if on then
+            wait()
+            freeze(false)
+            game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame.X + (moveType == "x" and moveAmount or 0), 750, game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame.Z + (moveType == "z" and moveAmount or 0))
+            freeze(true)
+        end
     end
+    game:GetService("Players").LocalPlayer.Character.Humanoid.Died:connect(function()
+        on = false
+    end)
 end
 
 function autofarm()
+    local on = true
     game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-125, 750, -125)
-    moveTo("x", 10)
-    moveTo("z", 10)
-    moveTo("x", -10)
-    moveTo("z", -10)
-    if getgenv().autofarm then
-        if game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
-            autofarm()
+    if on then
+        moveTo("x", 10)
+    end
+    if on then
+        moveTo("z", 10)
+    end
+    if on then
+        moveTo("x", -10)
+    end
+    if on then
+        moveTo("z", -10)
+    end
+    if on then
+        if getgenv().autofarm then
+            if game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
+                autofarm()
+            end
         end
     end
+    game:GetService("Players").LocalPlayer.Character.Humanoid.Died:connect(function()
+        on = false
+    end)
 end
 
 workspace.ChildAdded:connect(function(child)
@@ -44,6 +64,11 @@ workspace.ChildAdded:connect(function(child)
             firetouchinterest(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart, child.Union, 0)
         end
     end
+end)
+
+game:GetService("Players").LocalPlayer.CharacterAppearanceLoaded:connect(function()
+    wait()
+    autofarm()
 end)
 
 local library = loadstring(game:HttpGet(('https://raw.githubusercontent.com/AikaV3rm/UiLib/master/Lib.lua')))()
