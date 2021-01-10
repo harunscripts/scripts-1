@@ -27,32 +27,30 @@ function moveTo(moveType, moveAmount)
         on = false
     end)
 end
-
+local clientdata = {}
 function autofarm()
-    local on = true
+    local client = #clientdata + 1
+    clientdata[client] = true
     game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-125, 750, -125)
-    if on then
+    if clientdata[client] then
         moveTo("x", 10)
     end
-    if on then
+    if clientdata[client] then
         moveTo("z", 10)
     end
-    if on then
+    if clientdata[client] then
         moveTo("x", -10)
     end
-    if on then
+    if clientdata[client] then
         moveTo("z", -10)
     end
-    if on then
+    if clientdata[client] then
         if getgenv().autofarm then
             if game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
                 autofarm()
             end
         end
     end
-    game:GetService("Players").LocalPlayer.CharacterAppearanceLoaded:connect(function()
-        on = false
-    end)
 end
 
 workspace.ChildAdded:connect(function(child)
@@ -68,6 +66,7 @@ end)
 
 game:GetService("Players").LocalPlayer.CharacterAppearanceLoaded:connect(function()
     wait()
+    clientdata[#clientdata] = false
     autofarm()
 end)
 
