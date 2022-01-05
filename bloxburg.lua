@@ -1,3 +1,11 @@
+if not firesignal then 
+    firesignal = function(btn) 
+        for i,v in next, getconnections(btn) do
+            v:Fire()
+        end
+    end
+end
+
 local hairs = {
     Afro = 11412443,
     Charming = 74878559,
