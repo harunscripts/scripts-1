@@ -28,12 +28,6 @@ local client = game:GetService("Players").LocalPlayer
 local stats = replicatedStorage.Stats[client.Name]
 local jobManager = require(client.PlayerGui.MainGUI.Scripts.JobManager)
 
-function clickButton(btn)
-    for i,v in next, getconnections(btn.Activated) do
-        v:Fire()
-    end
-end
-
 function getOrder(customer)
     return {Style = customer.Order:WaitForChild("Style").Value, Color = customer.Order:WaitForChild("Color").Value} 
 end
@@ -66,8 +60,7 @@ while task.wait() do
 
                     if customer.PrimaryHat.Handle.Mesh.MeshId:split("id=")[2] ~= tostring(hairs[order.Style]) or customer.PrimaryHat.Handle.BrickColor ~= colors[order.Color] then
                         repeat
-                            task.wait(0.025)
-                            clickButton(station.Mirror.HairdresserGUI.Frame:FindFirstChild("Style").Next)
+                            firesignal(station.Mirror.HairdresserGUI.Frame:FindFirstChild("Style").Next.Activated)
                             if not customer then continue end
                         until
                             customer.PrimaryHat.Handle.Mesh.MeshId:split("id=")[2] == tostring(hairs[order.Style])
@@ -76,20 +69,19 @@ while task.wait() do
                         if not customer then continue end
 
                         repeat
-                            task.wait(0.025)
-                            clickButton(station.Mirror.HairdresserGUI.Frame:FindFirstChild("Color").Next)
+                            firesignal(station.Mirror.HairdresserGUI.Frame:FindFirstChild("Color").Next.Activated)
                             if not customer then continue end
                         until
                             customer.PrimaryHat.Handle.BrickColor == colors[order.Color]
 
                         task.wait()
 
-                        clickButton(station.Mirror.HairdresserGUI.Frame:FindFirstChild("Done"))
+                        firesignal(station.Mirror.HairdresserGUI.Frame:FindFirstChild("Done").Activated)
                     end
                 else
                     if workstations:GetChildren()[1].InUse.Value ~= client and workstations:GetChildren()[2].InUse.Value ~= client and workstations:GetChildren()[3].InUse.Value ~= client and workstations:GetChildren()[4].InUse.Value ~= client then
-                        clickButton(station.Mirror.HairdresserGUI.Frame:FindFirstChild("Style").Next)
-                        clickButton(station.Mirror.HairdresserGUI.Frame:FindFirstChild("Color").Next)
+                        firesignal(station.Mirror.HairdresserGUI.Frame:FindFirstChild("Style").Next.Activated)
+                        firesignal(station.Mirror.HairdresserGUI.Frame:FindFirstChild("Color").Next.Activated)
                     end
                 end
             end
