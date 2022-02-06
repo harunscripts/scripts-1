@@ -63,7 +63,7 @@ library:Init()
 game.Players.LocalPlayer.CharacterAdded:Connect(function()  
     if library.flags.autofarm then
         workspace.ClaimRiverResultsGold:FireServer()
-        task.wait(5.5)
+        task.wait(6)
         farm()
     end
 end)
