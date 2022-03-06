@@ -108,7 +108,6 @@ local function getlevel()
 end
 
 local function domoves()
-    local plrmoves = client.PlayerScripts.ClientEffects[services.ReplicatedStorage.Client.GetElement:InvokeServer()]:GetChildren()
     for _, move in next, client.Backpack:GetChildren() do
         local str = move.Name:split(" (")[1]
 
