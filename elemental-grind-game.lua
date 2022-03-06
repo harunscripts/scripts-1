@@ -45,45 +45,40 @@ local elements = {}
 section:Label("Commons")
 
 section:Dropdown({Content = commons, MultiChoice = true, Callback = function(tbl)
-    table.clear(elements)
     for _, elem in next, tbl do
-        table.insert(elements, elem)
+        elements[elem] = true
     end
 end})
 
 section:Label("Uncommons")
 
 section:Dropdown({Content = uncommons, MultiChoice = true, Callback = function(tbl)
-    table.clear(elements)
     for _, elem in next, tbl do
-        table.insert(elements, elem)
+        elements[elem] = true
     end
 end})
 
 section:Label("Rares")
 
 section:Dropdown({Content = rares, MultiChoice = true, Callback = function(tbl)
-    table.clear(elements)
     for _, elem in next, tbl do
-        table.insert(elements, elem)
+        elements[elem] = true
     end
 end})
 
 section:Label("Legends")
 
 section:Dropdown({Content = legends, MultiChoice = true, Callback = function(tbl)
-    table.clear(elements)
     for _, elem in next, tbl do
-        table.insert(elements, elem)
+        elements[elem] = true
     end
 end})
 
 section:Label("Myths")
 
 section:Dropdown({Content = myths, MultiChoice = true, Callback = function(tbl)
-    table.clear(elements)
     for _, elem in next, tbl do
-        table.insert(elements, elem)
+        elements[elem] = true
     end
 end})   
 
@@ -132,7 +127,7 @@ local function spin()
     repeat
         local currentelement = services.ReplicatedStorage.Client.GetElement:InvokeServer()
 
-        if table.find(elements, currentelement) then
+        if elements[currentelement] then
             found = true
         else
             services.ReplicatedStorage.Client.Spin:InvokeServer()
