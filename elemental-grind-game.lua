@@ -169,7 +169,7 @@ local function farmlevel()
         domoves()
         task.wait(0.1)
     until
-        getlevel() >= tonumber(library.flags.maxlevel)
+        getlevel() >= tonumber(library.flags.maxlevel) or library.flags.levelfarm == false
 end
 
 --// main loop
