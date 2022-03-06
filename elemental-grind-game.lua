@@ -109,9 +109,8 @@ end
 
 local function domoves()
     local plrmoves = client.PlayerScripts.ClientEffects[services.ReplicatedStorage.Client.GetElement:InvokeServer()]:GetChildren()
-    for _, move in next, plrmoves do
-        local str = move.Name:gsub("(%u)", " %1")
-        str = str:sub(2)
+    for _, move in next, client.Backpack:GetChildren() do
+        local str = move.Name:split(" (")[1]
 
         task.spawn(function()
             moves.StartMove:FireServer(str)
