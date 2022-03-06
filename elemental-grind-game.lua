@@ -113,8 +113,10 @@ local function domoves()
         local str = move.Name:gsub("(%u)", " %1")
         str = str:sub(2)
 
-        moves.StartMove:FireServer(str)
-        moves.EndMove:FireServer(str)
+        task.spawn(function()
+            moves.StartMove:FireServer(str)
+            moves.EndMove:FireServer(str)
+        end)
     end
 end
 
