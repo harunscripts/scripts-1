@@ -277,7 +277,22 @@ local function startgame()
 		platform.Transparency = 0.5
 	end
 
-	client.Character:MoveTo(workspace["platform"].Position + Vector3.new(0, 5, 0))
+    workspace.Gravity = 0
+
+    task.spawn(function()
+        repeat
+            for _, obj in next, client.Character:GetDescendants() do
+                if obj:IsA("BasePart") then
+                    obj.Velocity = Vector3.new(0, 0, 0)
+                    obj.RotVelocity = Vector3.new(0, 0, 0)
+                end
+            end
+
+            client.Character:MoveTo(workspace.platform.Position + Vector3.new(0, 15, 0))
+            task.wait()
+        until 
+            client.Character.Humanoid.Health <= 0
+    end)
 end
 
 local function farmlevel()
