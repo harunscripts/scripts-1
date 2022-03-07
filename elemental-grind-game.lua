@@ -1,18 +1,20 @@
 --// library
 
-local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/vozoid/venus-library/main/eggmodified.lua"))()
+local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/vozoid/venus-library/main/eggmodified.lua", true))()
 
 local commons = {}
 local uncommons = {}
 local rares = {}
 local legends = {}
 local myths = {}
+local colors = {}
 
 do
     local elements = game:GetService("ReplicatedStorage").Client.GetElements:InvokeServer()
 
     for _, tbl in next, elements do
         if type(tbl) == "table" then
+            colors[tbl[1]] = tbl[3]
             if tbl[2] == "Common" then
                 table.insert(commons, tbl[1])
             elseif tbl[2] == "Uncommon" then
@@ -28,11 +30,16 @@ do
     end
 end
 
-local main = library:Load({Name = "EGG Farmer", Theme = "Dark", SizeX = 237, SizeY = 362, ColorOverrides = {}})
+local found = false
+local request = syn and syn.request or request
+
+local main = library:Load({Name = "EGG Farmer", Theme = "Dark", SizeX = 238, SizeY = (request and 399 or 362), ColorOverrides = {}})
 local aimbot = main:Tab("Main")
 local section = aimbot:Section({Name = "Autofarm", column = 1})
 
-section:Toggle({Name = "Element Farmer", Flag = "elementfarm"})
+section:Toggle({Name = "Element Farmer", Flag = "elementfarm", Callback = function(value)
+    if value == false then found = false end
+end})
 local levelbeforespin = section:Box({Name = "Level Before Spinning", Flag = "levelbeforespin", Callback = function() end})
 levelbeforespin:Set("2")
 
@@ -41,12 +48,24 @@ local maxlevel = section:Box({Name = "Max Level", Flag = "maxlevel"})
 maxlevel:Set("100")
 
 local elements = {}
+local chosencommon = {}
+local chosenuncommon = {}
+local chosenrare = {}
+local chosenlegend = {}
+local chosenmyth = {}
+
 
 section:Label("Commons")
 
 section:Dropdown({Content = commons, MultiChoice = true, Callback = function(tbl)
     for _, elem in next, tbl do
         elements[elem] = true
+        chosencommon = tbl
+        for chosen, _ in next, elements do
+            if not table.find(chosencommon, chosen) and not table.find(chosenuncommon, chosen) and not table.find(chosenrare, chosen) and not table.find(chosenlegend, chosen) and not table.find(chosenmyth, chosen) then
+                elements[chosen] = false
+            end
+        end
     end
 end})
 
@@ -55,6 +74,12 @@ section:Label("Uncommons")
 section:Dropdown({Content = uncommons, MultiChoice = true, Callback = function(tbl)
     for _, elem in next, tbl do
         elements[elem] = true
+        chosenuncommon = tbl
+        for chosen, _ in next, elements do
+            if not table.find(chosencommon, chosen) and not table.find(chosenuncommon, chosen) and not table.find(chosenrare, chosen) and not table.find(chosenlegend, chosen) and not table.find(chosenmyth, chosen) then
+                elements[chosen] = false
+            end
+        end
     end
 end})
 
@@ -63,6 +88,12 @@ section:Label("Rares")
 section:Dropdown({Content = rares, MultiChoice = true, Callback = function(tbl)
     for _, elem in next, tbl do
         elements[elem] = true
+        chosenrare = tbl
+        for chosen, _ in next, elements do
+            if not table.find(chosencommon, chosen) and not table.find(chosenuncommon, chosen) and not table.find(chosenrare, chosen) and not table.find(chosenlegend, chosen) and not table.find(chosenmyth, chosen) then
+                elements[chosen] = false
+            end
+        end
     end
 end})
 
@@ -71,6 +102,12 @@ section:Label("Legends")
 section:Dropdown({Content = legends, MultiChoice = true, Callback = function(tbl)
     for _, elem in next, tbl do
         elements[elem] = true
+        chosenlegend = tbl
+        for chosen, _ in next, elements do
+            if not table.find(chosencommon, chosen) and not table.find(chosenuncommon, chosen) and not table.find(chosenrare, chosen) and not table.find(chosenlegend, chosen) and not table.find(chosenmyth, chosen) then
+                elements[chosen] = false
+            end
+        end
     end
 end})
 
@@ -79,8 +116,31 @@ section:Label("Myths")
 section:Dropdown({Content = myths, MultiChoice = true, Callback = function(tbl)
     for _, elem in next, tbl do
         elements[elem] = true
+        chosenmyth = tbl
+        for chosen, _ in next, elements do
+            if not table.find(chosencommon, chosen) and not table.find(chosenuncommon, chosen) and not table.find(chosenrare, chosen) and not table.find(chosenlegend, chosen) and not table.find(chosenmyth, chosen) then
+                elements[chosen] = false
+            end
+        end
     end
-end})   
+end}) 
+
+if request then
+    local webhook
+
+    section:Toggle({Name = "Hide Webhook", Callback = function(value)
+        if value then
+            webhook:Hide()
+            main:Resize(-22)
+        else
+            webhook:Show()
+            main:Resize(22)
+        end
+    end})
+
+    webhook = section:Box({Name = "Discord Webhook", Flag = "webhook"})
+    webhook:Set("")
+end
 
 --// main
 
@@ -121,16 +181,78 @@ local function farmspinlevel()
         getlevel() >= tonumber(library.flags.levelbeforespin)
 end
 
-local found = false
+local rolls = 0
 
-local function spin()
+function color3hex(color)
+	return tostring(tonumber(string.format("0x%02X%02X%02X", math.clamp(color.R * 255, 0, 255), math.clamp(color.G * 255, 0, 255), math.clamp(color.B * 255, 0, 255)), 16))
+end
+
+local spin
+spin = function()
     repeat
         local currentelement = services.ReplicatedStorage.Client.GetElement:InvokeServer()
 
         if elements[currentelement] then
             found = true
+
+            if request and library.flags.webhook:find("discord.com/api/webhooks/") then
+                request{
+                    Url = library.flags.webhook,
+                    Method = "POST",
+                    Headers = {
+                        ["Content-Type"] = "application/json"
+                    },
+                    Body = services.HttpService:JSONEncode{
+                        content = "Element found! ||@everyone||",
+                        embeds = {{
+                            fields = {
+                                {
+                                    name = "Element:",
+                                    value = tostring(currentelement)
+                                },
+                                {
+                                    name = "Rolls:",
+                                    value = tostring(rolls)
+                                }
+                            },
+                            color = color3hex(colors[currentelement])
+                        }}
+                    }
+                }
+            end
         else
             services.ReplicatedStorage.Client.Spin:InvokeServer()
+            rolls = rolls + 1
+
+            if elements[services.ReplicatedStorage.Client.GetElement:InvokeServer()] then
+                return spin()
+            end
+
+            if request and library.flags.webhook:find("discord.com/api/webhooks/") then
+                request{
+                    Url = library.flags.webhook,
+                    Method = "POST",
+                    Headers = {
+                        ["Content-Type"] = "application/json"
+                    },
+                    Body = services.HttpService:JSONEncode{
+                        content = "",
+                        embeds = {{
+                            fields = {
+                                {
+                                    name = "Element:",
+                                    value = tostring(services.ReplicatedStorage.Client.GetElement:InvokeServer())
+                                },
+                                {
+                                    name = "Rolls:",
+                                    value = tostring(rolls)
+                                }
+                            },
+                            color = color3hex(colors[services.ReplicatedStorage.Client.GetElement:InvokeServer()])
+                        }}
+                    }
+                }
+            end
         end
 
         task.wait(0.1)
@@ -184,7 +306,7 @@ while task.wait(0.1) do
     end
     if library.flags.levelfarm and (library.flags.elementfarm and found or true) then
         repeat task.wait(0.1) until client.Character and client.Character:WaitForChild("Humanoid").Health > 0
-        
+
         repeat
             startgame()
             task.wait(0.1)
