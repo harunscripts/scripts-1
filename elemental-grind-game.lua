@@ -171,7 +171,12 @@ end
 
 while task.wait(0.1) do
     if library.flags.elementfarm and not found then
-        startgame()
+        repeat
+            startgame()
+            task.wait(0.1)
+        until 
+            #client.Backpack:GetChildren() > 0
+
         farmspinlevel()
         client.Character.Humanoid.Health = 0
         repeat task.wait(0.1) until client.Character and client.Character:WaitForChild("Humanoid").Health > 0
@@ -179,7 +184,13 @@ while task.wait(0.1) do
     end
     if library.flags.levelfarm and (library.flags.elementfarm and found or true) then
         repeat task.wait(0.1) until client.Character and client.Character:WaitForChild("Humanoid").Health > 0
-        startgame()
+        
+        repeat
+            startgame()
+            task.wait(0.1)
+        until 
+            #client.Backpack:GetChildren() > 0
+
         farmlevel()
     end
 end
