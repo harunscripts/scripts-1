@@ -1,3 +1,11 @@
+local services = setmetatable({}, {
+    __index = function(_, service)
+        return game:GetService(service)
+    end
+})
+
+local client = services.Players.LocalPlayer
+
 --// library
 
 local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/vozoid/venus-library/main/eggmodified.lua", true))()
@@ -10,7 +18,7 @@ local myths = {}
 local colors = {}
 
 do
-    local elements = game:GetService("ReplicatedStorage").Client.GetElements:InvokeServer()
+    local elements = services.ReplicatedStorage.Client.GetElements:InvokeServer()
 
     for _, tbl in next, elements do
         if type(tbl) == "table" then
@@ -38,12 +46,26 @@ local aimbot = main:Tab("Main")
 local section = aimbot:Section({Name = "Autofarm", column = 1})
 
 section:Toggle({Name = "Element Farmer", Flag = "elementfarm", Callback = function(value)
-    if value == false then found = false end
+    if value == false then 
+        if client.Character and client.Character:FindFirstChild("Humanoid") then
+            client.Character.Humanoid.Health = 0
+        end
+
+        found = false 
+    end
 end})
-local levelbeforespin = section:Box({Name = "Level Before Spinning", Flag = "levelbeforespin", Callback = function() end})
+
+local levelbeforespin = section:Box({Name = "Level Before Spinning", Flag = "levelbeforespin"})
 levelbeforespin:Set("2")
 
-section:Toggle({Name = "Level Farmer", Flag = "levelfarm"})
+section:Toggle({Name = "Level Farmer", Flag = "levelfarm", Callback = function(value)
+    if value == false then 
+        if client.Character and client.Character:FindFirstChild("Humanoid") then
+            client.Character.Humanoid.Health = 0
+        end
+    end
+end})
+
 local maxlevel = section:Box({Name = "Max Level", Flag = "maxlevel"})
 maxlevel:Set("100")
 
@@ -143,13 +165,6 @@ end
 
 --// main
 
-local services = setmetatable({}, {
-    __index = function(_, service)
-        return game:GetService(service)
-    end
-})
-
-local client = services.Players.LocalPlayer
 local moves = services.ReplicatedStorage[client.UserId .. "Client"]
 
 local function getlevel()
