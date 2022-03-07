@@ -54,7 +54,6 @@ local chosenrare = {}
 local chosenlegend = {}
 local chosenmyth = {}
 
-
 section:Label("Commons")
 
 section:Dropdown({Content = commons, MultiChoice = true, Callback = function(tbl)
@@ -195,7 +194,7 @@ spin = function()
         if elements[currentelement] then
             found = true
 
-            if request and library.flags.webhook:find("discord.com/api/webhooks/") then
+            if request and library.flags.webhook:find("discord.com/api/webhooks/") and (library.flags.webhook:find("https://") or library.flags.webhook:find("http://")) then
                 request{
                     Url = library.flags.webhook,
                     Method = "POST",
@@ -228,7 +227,7 @@ spin = function()
                 return spin()
             end
 
-            if request and library.flags.webhook:find("discord.com/api/webhooks/") then
+            if request and library.flags.webhook:find("discord.com/api/webhooks/") and (library.flags.webhook:find("https://") or library.flags.webhook:find("http://")) then
                 request{
                     Url = library.flags.webhook,
                     Method = "POST",
