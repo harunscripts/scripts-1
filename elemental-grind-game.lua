@@ -240,12 +240,12 @@ local function getlevel()
 end
 
 local function domoves()
-    for _, move in next, client.Backpack:GetChildren() do
-        local str = move.Name:split(" (")[1]
+    for _, move in next, client.PlayerScripts.ClientEffects[services.ReplicatedStorage.Client.GetElement:InvokeServer()]:GetChildren() do
+        move = tostring(move):gsub("%u", " %1"):sub(2)
 
         task.spawn(function()
-            moves.StartMove:FireServer(str)
-            moves.EndMove:FireServer(str)
+            moves.StartMove:FireServer(move)
+            moves.EndMove:FireServer(move)
         end)
     end
 end
