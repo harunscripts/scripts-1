@@ -41,7 +41,7 @@ end
 local found = false
 local request = syn and syn.request or request
 
-local main = library:Load({Name = "EGG Farmer", Theme = "Dark", SizeX = 238, SizeY = (request and 399 or 362), ColorOverrides = {}})
+local main = library:Load({Name = "EGG Farmer", Theme = "Dark", SizeX = 238, SizeY = (request and 503 or 362), ColorOverrides = {}})
 local aimbot = main:Tab("Main")
 local section = aimbot:Section({Name = "Autofarm", column = 1})
 
@@ -161,6 +161,69 @@ if request then
 
     webhook = section:Box({Name = "Discord Webhook", Flag = "webhook"})
     webhook:Set("")
+
+    local webhookname = section:Box({Name = "Webhook Name", Flag = "webhookname"})
+    webhookname:Set("")
+
+    local content = isfile("eggwebhooks.json") and services.HttpService:JSONDecode(readfile("eggwebhooks.json")) or {}
+    local names = {}
+
+    for name, _ in next, content do
+        table.insert(names, name)
+    end
+
+    local saved
+
+    section:Button({Name = "Save Webhook", Callback = function()
+        local hook = library.flags.webhook
+        local name = library.flags.webhookname ~= "" and library.flags.webhookname or "UNNAMED"
+        if hook:find("discord.com/api/webhooks/") and (hook:find("https://") or hook:find("http://")) then
+            content[name] = hook
+            table.clear(names)
+
+            for name, _ in next, content do
+                table.insert(names, name)
+            end
+
+            writefile("eggwebhooks.json", services.HttpService:JSONEncode(content))
+            saved:Refresh(names)
+        end
+    end})
+
+    section:Label("Saved Webhooks")
+
+    saved = section:Dropdown({Content = names, Flag = "selectedhook", Callback = function(web)
+        webhook:Set(content[web])
+    end})
+
+    section:Button({Name = "Unsave Webhook", Callback = function()
+        local hook = library.flags.selectedhook
+        local url = content[hook]
+        if url:find("discord.com/api/webhooks/") and (url:find("https://") or url:find("http://")) then
+            local index = content[hook]
+            if index then
+                local newcontent = {}
+
+                for name, web in next, content do
+                    if name ~= hook then
+                        newcontent[name] = web
+                    end
+                end
+
+                content = newcontent
+
+                table.clear(names)
+
+                for name, _ in next, content do
+                    table.insert(names, name)
+                end
+
+                writefile("eggwebhooks.json", services.HttpService:JSONEncode(content))
+                saved:Refresh(names)
+                saved:Set()
+            end
+        end
+    end})
 end
 
 --// main
