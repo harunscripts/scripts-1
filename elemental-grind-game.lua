@@ -41,7 +41,7 @@ end
 local found = false
 local request = syn and syn.request or request
 
-local main = library:Load({Name = "EGG Farmer", Theme = "Dark", SizeX = 238, SizeY = (request and 445 or 362), ColorOverrides = {}})
+local main = library:Load({Name = "EGG Farmer", Theme = "Dark", SizeX = 238, SizeY = (request and 399 or 362), ColorOverrides = {}})
 local aimbot = main:Tab("Main")
 local section = aimbot:Section({Name = "Autofarm", column = 1})
 
@@ -161,12 +161,6 @@ if request then
 
     webhook = section:Box({Name = "Discord Webhook", Flag = "webhook"})
     webhook:Set("")
-
-    local content = isfile("eggwebhooks.json") and services.HttpService:JSONDecode(readfile("eggwebhooks.json")) or {}
-
-    webhooks = section:Dropdown({Content = content, Callback = function(web)
-        webhook:Set(web)
-    end})
 end
 
 --// main
