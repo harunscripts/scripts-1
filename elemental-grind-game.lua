@@ -322,6 +322,18 @@ end
 
 --// main loop
 
+task.spawn(function()
+    while task.wait(25) do
+        if library.flags.levelfarm or library.flags.elementfarm then
+            if not services.ReplicatedStorage.Client.SpinCooldown:InvokeServer() and #client.Backpack:GetChildren() < 1 then
+                if client:FindFirstChild("Character") then
+                    client.Character:WaitForChild("Humanoid").Health = 0
+                end
+            end
+        end
+    end
+end
+
 while task.wait(0.1) do
     if library.flags.elementfarm and not found then
         repeat
