@@ -235,37 +235,39 @@ spin = function()
                 }
             end
         else
-            services.ReplicatedStorage.Client.Spin:InvokeServer()
-            rolls = rolls + 1
+            if not services.ReplicatedStorage.Client.SpinCooldown:InvokeServer() then
+                services.ReplicatedStorage.Client.Spin:InvokeServer()
+                rolls = rolls + 1
 
-            if elements[services.ReplicatedStorage.Client.GetElement:InvokeServer()] then
-                return spin()
-            end
+                if elements[services.ReplicatedStorage.Client.GetElement:InvokeServer()] then
+                    return spin()
+                end
 
-            if request and library.flags.webhook:find("discord.com/api/webhooks/") and (library.flags.webhook:find("https://") or library.flags.webhook:find("http://")) then
-                request{
-                    Url = library.flags.webhook,
-                    Method = "POST",
-                    Headers = {
-                        ["Content-Type"] = "application/json"
-                    },
-                    Body = services.HttpService:JSONEncode{
-                        content = "",
-                        embeds = {{
-                            fields = {
-                                {
-                                    name = "Element:",
-                                    value = tostring(services.ReplicatedStorage.Client.GetElement:InvokeServer())
+                if request and library.flags.webhook:find("discord.com/api/webhooks/") and (library.flags.webhook:find("https://") or library.flags.webhook:find("http://")) then
+                    request{
+                        Url = library.flags.webhook,
+                        Method = "POST",
+                        Headers = {
+                            ["Content-Type"] = "application/json"
+                        },
+                        Body = services.HttpService:JSONEncode{
+                            content = "",
+                            embeds = {{
+                                fields = {
+                                    {
+                                        name = "Element:",
+                                        value = tostring(services.ReplicatedStorage.Client.GetElement:InvokeServer())
+                                    },
+                                    {
+                                        name = "Rolls:",
+                                        value = tostring(rolls)
+                                    }
                                 },
-                                {
-                                    name = "Rolls:",
-                                    value = tostring(rolls)
-                                }
-                            },
-                            color = color3hex(colors[services.ReplicatedStorage.Client.GetElement:InvokeServer()])
-                        }}
+                                color = color3hex(colors[services.ReplicatedStorage.Client.GetElement:InvokeServer()])
+                            }}
+                        }
                     }
-                }
+                end
             end
         end
 
