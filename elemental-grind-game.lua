@@ -336,6 +336,8 @@ spin = function()
         library.flags.elementfarm == false or found or services.ReplicatedStorage.Client.GetSpins:InvokeServer() <= 0
 end
 
+local pos = Vector3.new(0, math.random(10000, 100000), 0)
+
 local function startgame()
     services.ReplicatedStorage.Client.Teleport:InvokeServer()
     services.ReplicatedStorage.Client.Intro:InvokeServer()
@@ -344,15 +346,6 @@ local function startgame()
     client.PlayerGui.IntroGui.Enabled = false
     client.PlayerGui.Spinner.Enabled = false
     client.PlayerGui.StatsGui.Enabled = true
-
-    if not workspace:FindFirstChild("platform") then
-		local platform = Instance.new("Part", workspace)
-		platform.Name = "platform"
-		platform.Size = Vector3.new(10000, 10, 10000)
-		platform.Position = Vector3.new(0, math.random(10000, 100000), 0)
-		platform.Anchored = true
-		platform.Transparency = 0.5
-	end
 
     workspace.Gravity = 0
 
@@ -365,7 +358,7 @@ local function startgame()
                 end
             end
 
-            client.Character:MoveTo(workspace.platform.Position + Vector3.new(0, 15, 0))
+            client.Character:MoveTo(pos)
             task.wait()
         until 
             client.Character.Humanoid.Health <= 0
