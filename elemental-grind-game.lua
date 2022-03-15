@@ -240,13 +240,10 @@ local function getlevel()
 end
 
 local function domoves()
-    for _, move in next, client.PlayerScripts.ClientEffects[services.ReplicatedStorage.Client.GetElement:InvokeServer()]:GetChildren() do
-        move = tostring(move):gsub("%u", " %1"):sub(2)
-
-        task.spawn(function()
-            moves.StartMove:FireServer(move)
-            moves.EndMove:FireServer(move)
-        end)
+    for _, move in next, client.Backpack:GetChildren() do
+        move = tostring(move):split(" (")[1]
+        moves.StartMove:FireServer(move)
+        moves.EndMove:FireServer(move)
     end
 end
 
@@ -385,18 +382,6 @@ end
 
 --// main loop
 
-task.spawn(function()
-    while task.wait(25) do
-        if library.flags.levelfarm or library.flags.elementfarm then
-            if not services.ReplicatedStorage.Client.SpinCooldown:InvokeServer() and #client.Backpack:GetChildren() < 1 then
-                if client:FindFirstChild("Character") then
-                    client.Character:WaitForChild("Humanoid").Health = 0
-                end
-            end
-        end
-    end
-end)
-
 while task.wait(0.1) do
     if library.flags.elementfarm and not found then
         repeat
@@ -408,6 +393,7 @@ while task.wait(0.1) do
         farmspinlevel()
         client.Character.Humanoid.Health = 0
         repeat task.wait(0.1) until client.Character and client.Character:WaitForChild("Humanoid").Health > 0
+        task.wait(5)
         spin()
     end
     if library.flags.levelfarm and (library.flags.elementfarm and found or true) then
