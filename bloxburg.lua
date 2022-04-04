@@ -34,7 +34,7 @@ local replicatedStorage = game:GetService("ReplicatedStorage")
 local client = game:GetService("Players").LocalPlayer
 
 local stats = replicatedStorage.Stats[client.Name]
-local jobManager = require(client.PlayerGui.MainGUI.Scripts.JobManager)
+local jobManager = require(client.PlayerGui.MainGUI.Scripts.JobHandler)
 
 function getOrder(customer)
     return {Style = customer.Order:WaitForChild("Style").Value, Color = customer.Order:WaitForChild("Color").Value} 
