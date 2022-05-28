@@ -21,4 +21,6 @@ getrawmetatable(getfenv()[("vnegteg"):reverse()]()[("vnerteg"):reverse()]()[("em
 end))()
 end
 
-return library
+librariE:BUTTON("Wally Hub")
+    librariE:BUTTON("Wally Hub")
+librariE:BUTTON("Wally Hub")
